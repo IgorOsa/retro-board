@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Message } from '@retro-board/api-interfaces';
 
@@ -7,7 +7,15 @@ import { Message } from '@retro-board/api-interfaces';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
+  appName!: string;
   hello$ = this.http.get<Message>('/api/hello');
+
   constructor(private http: HttpClient) {}
+
+  ngOnInit(): void {
+    this.hello$.subscribe((data) => {
+      this.appName = data.message;
+    });
+  }
 }
