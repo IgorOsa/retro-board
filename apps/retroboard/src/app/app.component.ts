@@ -8,14 +8,14 @@ import { Message } from '@retro-board/api-interfaces';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  appName!: string;
+  public appTitle!: string;
   hello$ = this.http.get<Message>('/api/hello');
 
   constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
     this.hello$.subscribe((data) => {
-      this.appName = data.message;
+      this.appTitle = data.message;
     });
   }
 }
