@@ -4,20 +4,9 @@ import {
   moveItemInArray,
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
-
-export interface ITask {
-  id?: string;
-  title: string;
-  likes?: Array<{
-    userId: string;
-  }>;
-  comments?: string[];
-}
-
-export interface IColumn {
-  title: string;
-  tasks: ITask[];
-}
+import { delay } from 'rxjs/operators';
+import { IColumn } from '@retro-board/api-interfaces';
+import { BoardService } from '../../services/board.service';
 
 @Component({
   selector: 'retro-board-board',
@@ -25,41 +14,18 @@ export interface IColumn {
   styleUrls: ['./board.component.scss'],
 })
 export class BoardComponent {
-  columns: IColumn[] = [
-    {
-      title: 'backlog',
-      tasks: [
-        {
-          title: 'Get to work',
-          likes: [{ userId: '1' }, { userId: '2' }],
-          comments: ['Good', 'Great'],
-        },
-        {
-          title: 'Pick up groceries',
-          likes: [],
-          comments: ['So so', 'Not Bad'],
-        },
-        {
-          title: 'Fall asleep',
-          likes: [{ userId: '1' }, { userId: '2' }, { userId: '3' }],
-          comments: ['Normal'],
-        },
-        { title: 'Have some fun', likes: [], comments: [] },
-      ],
-    },
-    {
-      title: 'todo',
-      tasks: [{ title: 'Go home' }, { title: 'Fall asleep' }],
-    },
-    {
-      title: 'done',
-      tasks: [
-        { title: 'Pick up groceries' },
-        { title: 'Go home' },
-        { title: 'Have some fun' },
-      ],
-    },
-  ];
+  isLoading = true;
+  columns: IColumn[] = [];
+
+  constructor(boardService: BoardService) {
+    boardService
+      .getColumns$()
+      .pipe(delay(500))
+      .subscribe((data) => {
+        this.columns = data;
+        this.isLoading = false;
+      });
+  }
 
   drop(event: CdkDragDrop<IColumn>) {
     if (event.previousContainer === event.container) {
@@ -76,5 +42,23 @@ export class BoardComponent {
         event.currentIndex
       );
     }
+  }
+
+  addColumn() {
+    console.log('addColumn');
+    this.columns.push({ title: 'Added column', tasks: [] });
+  }
+
+  addTask(column: IColumn) {
+    console.log('addTask');
+    column.tasks.push({ title: 'Added task' });
+  }
+
+  like(taskId: string | undefined) {
+    console.log('like', taskId);
+  }
+
+  comment(taskId: string | undefined) {
+    console.log('comment', taskId);
   }
 }

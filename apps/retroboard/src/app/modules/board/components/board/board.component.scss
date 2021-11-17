@@ -1,11 +1,16 @@
-.add-column {
+.btn__add-column {
   width: 100%;
   margin-bottom: 1rem;
+}
+
+.btn__add-task {
+  width: 100%;
 }
 
 .board__container {
   display: flex;
   flex: 1;
+  flex-wrap: wrap;
 }
 
 .column__container {
