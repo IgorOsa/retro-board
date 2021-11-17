@@ -1,4 +1,6 @@
-<ng-template #loading><mat-spinner diameter="32"></mat-spinner></ng-template>
+<ng-template #loading>
+  <retro-board-loader></retro-board-loader>
+</ng-template>
 <div class="board" *ngIf="!isLoading; else loading">
   <button
     mat-raised-button
