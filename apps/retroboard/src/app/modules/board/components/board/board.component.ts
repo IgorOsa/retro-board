@@ -19,8 +19,7 @@ type dialogAction = 'column' | 'task';
 })
 export class BoardComponent implements OnInit {
   isLoading = true;
-  columns: IColumn[] = [];
-  currentUserId = 1;
+  columns!: IColumn[];
 
   constructor(private boardService: BoardService, public dialog: MatDialog) {}
 
@@ -28,8 +27,8 @@ export class BoardComponent implements OnInit {
     this.boardService
       .getColumns$()
       .pipe(delay(500))
-      .subscribe((data) => {
-        this.columns = data;
+      .subscribe((data): void => {
+        this.columns = data.columns;
         this.isLoading = false;
       });
   }
