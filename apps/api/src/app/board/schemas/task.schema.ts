@@ -13,7 +13,7 @@ export class Task implements ITask {
   @Prop()
   id?: string;
 
-  @ApiProperty()
+  @ApiProperty({ example: 'Add column model' })
   @Prop({ required: true })
   title: string;
 

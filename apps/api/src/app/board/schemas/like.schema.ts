@@ -7,11 +7,11 @@ import { ILikes } from '@retro-board/api-interfaces';
   versionKey: false,
 })
 export class Likes implements ILikes {
-  @ApiProperty()
+  @ApiProperty({ example: '619671f9f302700e286b94df' })
   @Prop()
   taskId?: string;
 
-  @ApiProperty()
+  @ApiProperty({ example: '619671f9f302700e286b94df' })
   @Prop()
   userId?: string;
 }

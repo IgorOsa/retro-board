@@ -7,15 +7,15 @@ import { IComments } from '@retro-board/api-interfaces';
   versionKey: false,
 })
 export class Comments implements IComments {
-  @ApiProperty()
+  @ApiProperty({ example: '619671f9f302700e286b94df' })
   @Prop()
   taskId?: string;
 
-  @ApiProperty()
+  @ApiProperty({ example: '619671f9f302700e286b94df' })
   @Prop()
   userId?: string;
 
-  @ApiProperty()
+  @ApiProperty({ example: 'Comment example' })
   @Prop({ required: true })
   text: string;
 }

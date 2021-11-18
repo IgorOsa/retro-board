@@ -8,21 +8,21 @@ import { Column } from './column.schema';
   versionKey: false,
 })
 export class Board implements IBoard {
-  @ApiProperty()
+  @ApiProperty({ example: '619671f9f302700e286b94df' })
   id: string;
 
-  @ApiProperty()
+  @ApiProperty({ example: 'Demo Board' })
   @Prop({ required: true })
   title: string;
 
-  @ApiProperty()
+  @ApiProperty({ example: '619671f9f302700e286b94df' })
   userId: string;
 
   @ApiProperty({ type: [Column] })
   @Prop({ required: true })
   columns: Column[];
 
-  @ApiProperty()
+  @ApiProperty({ example: '2021-11-18T15:31:49.451Z' })
   @Prop({ default: Date.now })
   created: Date;
 }

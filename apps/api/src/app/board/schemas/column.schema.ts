@@ -8,7 +8,7 @@ import { Task } from './task.schema';
   versionKey: false,
 })
 export class Column implements IColumn {
-  @ApiProperty()
+  @ApiProperty({ example: 'Backlog' })
   @Prop({ required: true })
   title: string;
 
