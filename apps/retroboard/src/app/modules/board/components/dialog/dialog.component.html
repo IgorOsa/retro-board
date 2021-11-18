@@ -1,0 +1,31 @@
+<h1 mat-dialog-title>{{ data.dialogTitle }}</h1>
+<div mat-dialog-content>
+  <mat-form-field appearance="fill">
+    <mat-label>Title</mat-label>
+    <input
+      matInput
+      [(ngModel)]="data.entityTitle"
+      required
+      minlength="4"
+      #title="ngModel"
+    />
+    <mat-error *ngIf="title.invalid && (title.dirty || title.touched)">
+      <div *ngIf="title.errors?.['required']">Title is required.</div>
+      <div *ngIf="title.errors?.['minlength']">
+        Title must be >4 characters long.
+      </div>
+    </mat-error>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions style="justify-content: space-between">
+  <button mat-button (click)="onNoClick()" color="primary">Cancel</button>
+  <button
+    mat-button
+    [mat-dialog-close]="data.entityTitle"
+    cdkFocusInitial
+    color="primary"
+    [disabled]="title.invalid"
+  >
+    Create
+  </button>
+</div>
