@@ -9,9 +9,10 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
-import { CustomBadRequestException } from '../core/exceptions/badrequest.exception';
-import { BoardService } from './board.service';
-import { Board } from './schemas/board.schema';
+import { CustomBadRequestException } from '../../core/exceptions/badrequest.exception';
+import { BoardService } from '../services/board.service';
+import { Board } from '../schemas/board.schema';
+import { IMessage } from '@retro-board/api-interfaces';
 
 @ApiTags('board')
 @Controller('board')
@@ -32,8 +33,8 @@ export class BoardController {
   @ApiInternalServerErrorResponse({
     description: 'Internal server error',
   })
-  async findOne(): Promise<Board> {
-    return await this.boardService.find();
+  async findOne(): Promise<Board | IMessage> {
+    return (await this.boardService.findOne()) || { message: 'No boards' };
   }
 
   @Post()

@@ -1,10 +1,14 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import {
+  Prop,
+  Schema as MongooseSchema,
+  SchemaFactory,
+} from '@nestjs/mongoose';
 
 import { IBoard } from '@retro-board/api-interfaces';
-import { Column } from './column.schema';
+import { Column, ColumnSchema } from './column.schema';
 
-@Schema({
+@MongooseSchema({
   versionKey: false,
 })
 export class Board implements IBoard {
@@ -19,8 +23,8 @@ export class Board implements IBoard {
   userId: string;
 
   @ApiProperty({ type: [Column] })
-  @Prop({ required: true })
-  columns: Column[];
+  @Prop({ default: [], type: [ColumnSchema] })
+  columns: [Column];
 
   @ApiProperty({ example: '2021-11-18T15:31:49.451Z' })
   @Prop({ default: Date.now })

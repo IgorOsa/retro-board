@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { IsString } from 'class-validator';
 
 import { IColumn } from '@retro-board/api-interfaces';
 import { Task } from './task.schema';
@@ -8,12 +9,13 @@ import { Task } from './task.schema';
   versionKey: false,
 })
 export class Column implements IColumn {
+  @IsString()
   @ApiProperty({ example: 'Backlog' })
   @Prop({ required: true })
   title: string;
 
   @ApiProperty({ type: [Task] })
-  @Prop({ required: true })
+  @Prop({ default: [] })
   tasks: Task[];
 }
 

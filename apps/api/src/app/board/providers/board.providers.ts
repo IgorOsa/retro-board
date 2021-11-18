@@ -1,5 +1,5 @@
 import { Mongoose } from 'mongoose';
-import { BoardSchema } from './schemas/board.schema';
+import { BoardSchema } from '../schemas/board.schema';
 
 export const boardProviders = [
   {

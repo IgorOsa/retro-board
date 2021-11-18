@@ -19,7 +19,7 @@ type dialogAction = 'column' | 'task';
 })
 export class BoardComponent implements OnInit {
   isLoading = true;
-  columns!: IColumn[];
+  columns: IColumn[] = [];
 
   constructor(private boardService: BoardService, public dialog: MatDialog) {}
 
@@ -28,7 +28,7 @@ export class BoardComponent implements OnInit {
       .getColumns$()
       .pipe(delay(500))
       .subscribe((data): void => {
-        this.columns = data.columns;
+        this.columns = data.columns || [];
         this.isLoading = false;
       });
   }
@@ -73,12 +73,12 @@ export class BoardComponent implements OnInit {
   }
 
   addColumn(title: string) {
-    console.log('addColumn');
+    console.log('addColumn', this.columns);
     this.columns.push({ title, tasks: [] });
   }
 
   addTask(title: string, column: IColumn) {
-    console.log('addTask');
+    console.log('addTask', this.columns);
     column.tasks.push({ title });
   }
 

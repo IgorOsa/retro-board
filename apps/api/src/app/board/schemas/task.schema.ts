@@ -9,19 +9,19 @@ import { Comments } from './comments.schema';
   versionKey: false,
 })
 export class Task implements ITask {
-  @ApiProperty()
+  @ApiProperty({ example: '619671f9f302700e286b94df' })
   @Prop()
   id?: string;
 
-  @ApiProperty({ example: 'Add column model' })
+  @ApiProperty({ example: 'Example task title' })
   @Prop({ required: true })
   title: string;
 
-  @ApiProperty({ type: [Likes] })
+  @ApiProperty({ type: [Likes], default: [] })
   @Prop()
   likes?: Likes[];
 
-  @ApiProperty({ type: [Comments] })
+  @ApiProperty({ type: [Comments], default: [] })
   @Prop()
   comments?: Comments[];
 }
