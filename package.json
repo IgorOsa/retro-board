@@ -29,6 +29,7 @@
     "@nestjs/platform-express": "^8.2.1",
     "@nestjs/swagger": "^5.1.4",
     "@nrwl/angular": "13.1.4",
+    "dotenv": "^10.0.0",
     "mongoose": "^6.0.13",
     "reflect-metadata": "^0.1.13",
     "rxjs": "~6.6.0",
