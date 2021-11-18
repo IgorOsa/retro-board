@@ -1,21 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Message } from '@retro-board/api-interfaces';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'retro-board-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit {
-  public appTitle!: string;
-  hello$ = this.http.get<Message>('/api/hello');
-
-  constructor(private http: HttpClient) {}
-
-  ngOnInit(): void {
-    this.hello$.subscribe((data) => {
-      this.appTitle = data.message;
-    });
-  }
+export class AppComponent {
+  public appTitle = 'RetroBoard';
 }
