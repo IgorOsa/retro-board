@@ -16,8 +16,8 @@ import { Task, TaskSchema } from './task.schema';
 export class Column implements IColumn {
   @IsString()
   @ApiProperty({ example: '619671f9f302700e286b94df' })
-  @Prop()
-  _id: mongoose.Types.ObjectId;
+  @Prop({ type: mongoose.Types.ObjectId })
+  _id: string;
 
   @IsString()
   @ApiProperty({ example: 'Backlog' })

@@ -17,8 +17,8 @@ export type BoardDocument = Board & Document;
 })
 export class Board implements IBoard {
   @ApiProperty({ example: '619671f9f302700e286b94df' })
-  @Prop()
-  _id: mongoose.Types.ObjectId;
+  @Prop({ type: mongoose.Types.ObjectId })
+  _id: string;
 
   @ApiProperty({ example: 'Demo Board' })
   @Prop({ required: true })

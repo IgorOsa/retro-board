@@ -1,11 +1,9 @@
-import * as mongoose from 'mongoose';
-
 export interface IMessage {
   message: string;
 }
 
 export interface IBoard {
-  _id?: mongoose.Types.ObjectId;
+  _id?: string;
   title: string;
   userId: string;
   columns: IColumn[];
@@ -13,7 +11,7 @@ export interface IBoard {
 }
 
 export interface IColumn {
-  _id?: mongoose.Types.ObjectId;
+  _id?: string;
   title: string;
   tasks: ITask[];
 }
