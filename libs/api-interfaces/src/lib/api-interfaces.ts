@@ -13,6 +13,7 @@ export interface IBoard {
 }
 
 export interface IColumn {
+  _id?: mongoose.Types.ObjectId;
   title: string;
   tasks: ITask[];
 }
