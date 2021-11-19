@@ -1,57 +1,48 @@
 import { Inject, Injectable } from '@nestjs/common';
-import * as mongoose from 'mongoose';
 import { Model } from 'mongoose';
 import { CustomBadRequestException } from '../../core/exceptions/badrequest.exception';
-import { Board } from '../schemas/board.schema';
-import { Column } from '../schemas/column.schema';
+import { CreatedResponse } from '../../core/models/created.model';
+import {
+  Column,
+  ColumnCreateRequest,
+  ColumnDocument,
+} from '../schemas/column.schema';
 
 const MONGO_ENTITY_EXISTS_ERROR_CODE = 11000;
 
 @Injectable()
 export class ColumnService {
   constructor(
-    @Inject('BOARD_MODEL') private readonly boardModel: Model<Board>
+    @Inject('COLUMN_MODEL') private readonly columnModel: Model<ColumnDocument>
   ) {}
 
-  async create(column: Column) {
+  async create(column: ColumnCreateRequest): Promise<CreatedResponse> {
     try {
-      if (!column?.title) {
-        throw new CustomBadRequestException();
-      }
+      const payload = JSON.parse(JSON.stringify(column));
 
-      const res = await this.boardModel.updateOne(
-        {},
-        { $push: { columns: column } }
-      );
-
-      if (res.modifiedCount === 1) {
-        return { message: 'Column successfully created.' };
-      }
+      await this.columnModel.create(payload);
+      return { message: 'Column created' };
     } catch (err) {
       if (err.code === MONGO_ENTITY_EXISTS_ERROR_CODE) {
-        throw new CustomBadRequestException('Board exists');
+        throw new CustomBadRequestException('Column exists');
       }
-      throw new CustomBadRequestException();
+      throw new CustomBadRequestException(err.messsage);
     }
   }
 
-  async getAll(): Promise<[Column]> {
+  async getAll(): Promise<Column[]> {
     try {
-      const res = await this.boardModel.findOne({});
-      return res.columns;
+      const res = await this.columnModel.find({});
+      return res;
     } catch (err) {
-      throw new CustomBadRequestException();
+      throw new CustomBadRequestException(err.message);
     }
   }
 
   async get(id: string) {
     try {
-      const _id = new mongoose.Types.ObjectId(id);
-      const res = await this.boardModel.findOne({});
-
-      const r = res?.columns.find((el) => _id.equals(el._id));
-
-      return r || { message: 'No columns found with id provided.' };
+      const res = await this.columnModel.findOne({ _id: id });
+      return res || { message: 'No columns found with id provided.' };
     } catch (err) {
       throw new CustomBadRequestException();
     }

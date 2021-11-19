@@ -6,18 +6,19 @@ export interface IBoard {
   _id?: string;
   title: string;
   userId: string;
-  columns: IColumn[];
-  created: Date;
+  created?: Date;
 }
 
 export interface IColumn {
   _id?: string;
+  boardId: string;
   title: string;
-  tasks: ITask[];
+  tasks?: ITask[];
 }
 
 export interface ITask {
-  id?: string;
+  _id?: string;
+  columnId: string;
   title: string;
   likes?: ILikes[];
   comments?: IComments[];
