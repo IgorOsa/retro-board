@@ -7,7 +7,7 @@ export class CustomBadRequestException extends BadRequestException {
   }
   @ApiProperty({ example: 400 })
   statusCode: number;
-  @ApiProperty({ example: 'Task exists' })
+  @ApiProperty({ example: 'Entity exists' })
   message: string;
   @ApiProperty({ example: 'Bad Request' })
   error: string;
