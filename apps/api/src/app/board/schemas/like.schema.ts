@@ -16,4 +16,4 @@ export class Likes implements ILikes {
   userId?: string;
 }
 
-export const ColumnSchema = SchemaFactory.createForClass(Likes);
+export const LikeSchema = SchemaFactory.createForClass(Likes);

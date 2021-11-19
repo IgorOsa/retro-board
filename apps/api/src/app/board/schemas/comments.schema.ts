@@ -20,4 +20,4 @@ export class Comments implements IComments {
   text: string;
 }
 
-export const CommentsSchema = SchemaFactory.createForClass(Comments);
+export const CommentSchema = SchemaFactory.createForClass(Comments);

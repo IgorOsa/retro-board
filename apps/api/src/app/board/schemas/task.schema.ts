@@ -1,9 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
-import { IComments, ILikes, ITask } from '@retro-board/api-interfaces';
-import { Likes } from './like.schema';
-import { Comments } from './comments.schema';
+import { ITask } from '@retro-board/api-interfaces';
+import { Likes, LikeSchema } from './like.schema';
+import { Comments, CommentSchema } from './comments.schema';
 
 @Schema({
   versionKey: false,
@@ -18,12 +18,12 @@ export class Task implements ITask {
   title: string;
 
   @ApiProperty({ type: [Likes], default: [] })
-  @Prop()
+  @Prop({ type: [LikeSchema] })
   likes?: Likes[];
 
   @ApiProperty({ type: [Comments], default: [] })
-  @Prop()
+  @Prop({ type: [CommentSchema] })
   comments?: Comments[];
 }
 
-export const ColumnSchema = SchemaFactory.createForClass(Task);
+export const TaskSchema = SchemaFactory.createForClass(Task);
