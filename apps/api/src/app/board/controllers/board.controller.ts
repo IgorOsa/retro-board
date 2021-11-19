@@ -11,7 +11,11 @@ import {
 } from '@nestjs/swagger';
 import { CustomBadRequestException } from '../../core/exceptions/badrequest.exception';
 import { BoardService } from '../services/board.service';
-import { Board } from '../schemas/board.schema';
+import {
+  Board,
+  BoardCreateRequest,
+  BoardCreateResponse,
+} from '../schemas/board.schema';
 import { IMessage } from '@retro-board/api-interfaces';
 
 @ApiTags('board')
@@ -34,14 +38,15 @@ export class BoardController {
     description: 'Internal server error',
   })
   async findOne(): Promise<Board | IMessage> {
-    return (await this.boardService.findOne()) || { message: 'No boards' };
+    const b = await this.boardService.findOne();
+    return b || { message: 'No boards' };
   }
 
   @Post()
   @ApiOperation({ summary: 'Create board' })
   @ApiCreatedResponse({
     description: 'Board successfully created.',
-    type: Board,
+    type: BoardCreateResponse,
   })
   @ApiBadRequestResponse({
     description: 'Bad request.',
@@ -51,8 +56,9 @@ export class BoardController {
   @ApiInternalServerErrorResponse({
     description: 'Internal server error',
   })
-  @ApiBody({ description: 'Create board', type: Board })
-  async create(@Body() createBoard: Board): Promise<Board> {
-    return this.boardService.create(createBoard);
+  @ApiBody({ description: 'Create board', type: BoardCreateRequest })
+  async create(@Body() board: Board): Promise<Board> {
+    const b = this.boardService.create(board);
+    return b;
   }
 }

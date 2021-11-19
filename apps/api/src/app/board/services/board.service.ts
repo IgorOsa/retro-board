@@ -2,14 +2,14 @@ import { Inject, Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { CustomBadRequestException } from '../../core/exceptions/badrequest.exception';
 
-import { Board } from '../schemas/board.schema';
+import { Board, BoardDocument } from '../schemas/board.schema';
 
 const MONGO_ENTITY_EXISTS_ERROR_CODE = 11000;
 
 @Injectable()
 export class BoardService {
   constructor(
-    @Inject('BOARD_MODEL') private readonly boardModel: Model<Board>
+    @Inject('BOARD_MODEL') private readonly boardModel: Model<BoardDocument>
   ) {}
 
   async findOne(payload = {}): Promise<Board | null> {

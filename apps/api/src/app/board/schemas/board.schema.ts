@@ -1,25 +1,31 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, OmitType } from '@nestjs/swagger';
 import {
   Prop,
   Schema as MongooseSchema,
   SchemaFactory,
 } from '@nestjs/mongoose';
+import * as mongoose from 'mongoose';
+import { Document } from 'mongoose';
 
 import { IBoard } from '@retro-board/api-interfaces';
 import { Column, ColumnSchema } from './column.schema';
+
+export type BoardDocument = Board & Document;
 
 @MongooseSchema({
   versionKey: false,
 })
 export class Board implements IBoard {
   @ApiProperty({ example: '619671f9f302700e286b94df' })
-  id: string;
+  @Prop()
+  _id: mongoose.Types.ObjectId;
 
   @ApiProperty({ example: 'Demo Board' })
   @Prop({ required: true })
   title: string;
 
   @ApiProperty({ example: '619671f9f302700e286b94df' })
+  @Prop()
   userId: string;
 
   @ApiProperty({ type: [Column] })
@@ -32,3 +38,11 @@ export class Board implements IBoard {
 }
 
 export const BoardSchema = SchemaFactory.createForClass(Board);
+
+export class BoardCreateRequest extends OmitType(Board, [
+  '_id',
+  'columns',
+  'created',
+] as const) {}
+
+export class BoardCreateResponse extends Board {}
