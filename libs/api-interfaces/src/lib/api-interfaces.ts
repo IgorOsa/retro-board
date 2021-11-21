@@ -4,8 +4,9 @@ export interface IMessage {
 
 export interface IBoard {
   _id?: string;
-  title: string;
-  userId: string;
+  title?: string;
+  userId?: string;
+  columns?: IColumn[];
   created?: Date;
 }
 

@@ -1,16 +1,15 @@
 import { Component, OnInit } from '@angular/core';
+import { IBoard, IColumn } from '@retro-board/api-interfaces';
+import { BoardService } from '../../services/board.service';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogComponent } from '../dialog/dialog.component';
+import { dialogAction } from '../dialog/dialog.model';
+import { delay } from 'rxjs/operators';
 import {
   CdkDragDrop,
   moveItemInArray,
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
-import { delay } from 'rxjs/operators';
-import { IColumn } from '@retro-board/api-interfaces';
-import { BoardService } from '../../services/board.service';
-import { MatDialog } from '@angular/material/dialog';
-import { DialogComponent } from '../dialog/dialog.component';
-
-type dialogAction = 'column' | 'task';
 
 @Component({
   selector: 'retro-board-board',
@@ -19,38 +18,21 @@ type dialogAction = 'column' | 'task';
 })
 export class BoardComponent implements OnInit {
   isLoading = true;
-  columns: IColumn[] = [];
+  board!: IBoard;
 
   constructor(private boardService: BoardService, public dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.boardService
-      .getColumns$()
+      .getFullBoard$()
       .pipe(delay(500))
-      .subscribe((data): void => {
-        this.columns = data.columns || [];
+      .subscribe((board) => {
+        this.board = board;
         this.isLoading = false;
       });
   }
 
-  drop(event: CdkDragDrop<IColumn>) {
-    if (event.previousContainer === event.container) {
-      moveItemInArray(
-        event.container.data.tasks,
-        event.previousIndex,
-        event.currentIndex
-      );
-    } else {
-      transferArrayItem(
-        event.previousContainer.data.tasks,
-        event.container.data.tasks,
-        event.previousIndex,
-        event.currentIndex
-      );
-    }
-  }
-
-  openDialog(dialogTitle: string, action: dialogAction, data: any = {}): void {
+  openDialog(dialogTitle: string, action: dialogAction): void {
     const dialogRef = this.dialog.open(DialogComponent, {
       width: '250px',
       data: { dialogTitle },
@@ -63,7 +45,7 @@ export class BoardComponent implements OnInit {
             this.addColumn(result);
             break;
           case 'task':
-            this.addTask(result, data?.column);
+            this.addTask(result);
             break;
           default:
             break;
@@ -73,13 +55,12 @@ export class BoardComponent implements OnInit {
   }
 
   addColumn(title: string) {
-    console.log('addColumn', this.columns);
-    this.columns.push({ title, tasks: [] });
+    console.log('addColumn', this.board.columns);
+    this.board.columns?.push({ title, boardId: '' });
   }
 
-  addTask(title: string, column: IColumn) {
-    console.log('addTask', this.columns);
-    column.tasks.push({ title });
+  addTask(title: string) {
+    console.log('addTask', title);
   }
 
   like(taskId: string | undefined) {
@@ -88,5 +69,30 @@ export class BoardComponent implements OnInit {
 
   comment(taskId: string | undefined) {
     console.log('comment', taskId);
+  }
+
+  drop(event: CdkDragDrop<IColumn>): void {
+    console.log(event);
+
+    if (event.previousContainer === event.container) {
+      if (event.container.data?.tasks) {
+        moveItemInArray(
+          event.container.data.tasks,
+          event.previousIndex,
+          event.currentIndex
+        );
+        //TODO Make API call to update
+      }
+    } else {
+      if (event.previousContainer.data?.tasks && event.container.data?.tasks) {
+        transferArrayItem(
+          event.previousContainer.data.tasks,
+          event.container.data.tasks,
+          event.previousIndex,
+          event.currentIndex
+        );
+        //TODO Make API call to update
+      }
+    }
   }
 }
