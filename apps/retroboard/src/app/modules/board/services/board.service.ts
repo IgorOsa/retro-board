@@ -1,8 +1,8 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IBoard, IColumn, ITask } from '@retro-board/api-interfaces';
-import { BehaviorSubject, forkJoin, Observable, throwError } from 'rxjs';
-import { catchError, debounceTime, map, retry } from 'rxjs/operators';
+import { BehaviorSubject, forkJoin, Observable } from 'rxjs';
+import { debounceTime, map, retry } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -21,7 +21,6 @@ export class BoardService {
       .pipe(
         debounceTime(500),
         retry(3),
-        catchError(this.handleError),
         map((data) => ({
           ...data[0],
           columns: data[1].map((el) => {
@@ -34,12 +33,8 @@ export class BoardService {
           }),
         }))
       )
-      .subscribe({
-        next: (board) => {
-          this.store$.next(board);
-        },
-        error: undefined,
-        complete: () => console.log('Board is loaded: ', this.store$.value),
+      .subscribe((board) => {
+        this.store$.next(board);
       });
 
     return this.store$;
@@ -67,18 +62,5 @@ export class BoardService {
   addTask$(payload: ITask): Observable<ITask> {
     const c$ = this.http.post<ITask>('/api/task', payload);
     return c$;
-  }
-
-  handleError(error: HttpErrorResponse) {
-    let errorMessage = 'Unknown error!';
-    if (error.error instanceof ErrorEvent) {
-      // Client-side errors
-      errorMessage = `Error: ${error.error.message}`;
-    } else {
-      // Server-side errors
-      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
-    }
-    window.alert(errorMessage);
-    return throwError(errorMessage);
   }
 }
