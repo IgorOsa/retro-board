@@ -3,16 +3,23 @@
   margin-bottom: 1rem;
 }
 
-.board__container {
+.board__wrapper {
   display: flex;
+  justify-content: space-around;
   flex: 1;
   flex-wrap: wrap;
 }
 
-.column__container {
+.board__container {
   min-width: 212px;
   margin: 0 1rem 1rem;
   display: inline-block;
   vertical-align: top;
-  flex-grow: 1;
+  flex: 1 1 20%;
+}
+
+@media screen and (max-width: 1050px) {
+  .board__container {
+    flex: 1 1 33%;
+  }
 }

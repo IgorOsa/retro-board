@@ -13,8 +13,8 @@
       add
     </mat-icon>
   </button>
-  <div cdkDropListGroup class="board__container">
-    <div class="column__container" *ngFor="let column of board.columns">
+  <div cdkDropListGroup class="board__wrapper">
+    <div class="board__container" *ngFor="let column of board.columns">
       <retro-board-column
         [column]="column"
         (openedDialog)="openDialog('Create Task')"
