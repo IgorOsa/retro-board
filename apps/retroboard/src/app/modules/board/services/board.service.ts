@@ -11,6 +11,7 @@ export class BoardService {
   public store$ = new BehaviorSubject<IBoard>({
     _id: '6197e48265c7a3830f70c880',
     title: 'Demo board',
+    columns: [],
   });
 
   constructor(private readonly http: HttpClient) {}
@@ -54,7 +55,7 @@ export class BoardService {
     return c$;
   }
 
-  addColumn$(payload: IColumn): Observable<IColumn> {
+  addColumn$(payload: Omit<IColumn, 'tasks'>): Observable<IColumn> {
     const c$ = this.http.post<IColumn>('/api/column', payload);
 
     return c$;

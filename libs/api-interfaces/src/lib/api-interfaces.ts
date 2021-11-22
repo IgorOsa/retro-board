@@ -6,7 +6,7 @@ export interface IBoard {
   _id: string;
   title?: string;
   userId?: string;
-  columns?: IColumn[];
+  columns: IColumn[];
   created?: Date;
 }
 
@@ -14,7 +14,7 @@ export interface IColumn {
   _id?: string;
   boardId: string;
   title: string;
-  tasks?: ITask[];
+  tasks: ITask[];
 }
 
 export interface ITask {
