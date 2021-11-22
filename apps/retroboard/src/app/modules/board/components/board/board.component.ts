@@ -9,6 +9,7 @@ import {
   moveItemInArray,
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
+import { SnackbarService } from '../../../../shared/services';
 
 @Component({
   selector: 'retro-board-board',
@@ -19,7 +20,11 @@ export class BoardComponent implements OnInit {
   isLoading = true;
   board!: IBoard;
 
-  constructor(private boardService: BoardService, public dialog: MatDialog) {}
+  constructor(
+    private boardService: BoardService,
+    public dialog: MatDialog,
+    private snackbarService: SnackbarService
+  ) {}
 
   ngOnInit(): void {
     this.boardService
@@ -57,6 +62,7 @@ export class BoardComponent implements OnInit {
           boardId: this.board._id,
           tasks: [],
         });
+        this.snackbarService.open('Column created');
       });
   }
 

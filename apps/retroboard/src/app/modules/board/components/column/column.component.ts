@@ -5,6 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { IColumn } from '@retro-board/api-interfaces';
 import { BoardService } from '../../services/board.service';
 import { DialogComponent } from '../dialog/dialog.component';
+import { SnackbarService } from '../../../../shared/services';
 
 @Component({
   selector: 'retro-board-column',
@@ -17,7 +18,11 @@ export class ColumnComponent {
   @Output() public openedDialog = new EventEmitter();
   public isLoading = true;
 
-  constructor(private boardService: BoardService, public dialog: MatDialog) {}
+  constructor(
+    private boardService: BoardService,
+    public dialog: MatDialog,
+    private snackbarService: SnackbarService
+  ) {}
 
   drop(event: CdkDragDrop<IColumn>): void {
     this.droped.emit(event);
@@ -49,6 +54,7 @@ export class ColumnComponent {
           likes: [],
           comments: [],
         });
+        this.snackbarService.open('Task created');
       });
   }
 
