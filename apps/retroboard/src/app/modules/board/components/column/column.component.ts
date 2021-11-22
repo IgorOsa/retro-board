@@ -4,6 +4,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { IColumn } from '@retro-board/api-interfaces';
 import { BoardService } from '../../services/board.service';
+import { DialogComponent } from '../dialog/dialog.component';
 
 @Component({
   selector: 'retro-board-column',
@@ -22,8 +23,33 @@ export class ColumnComponent {
     this.droped.emit(event);
   }
 
-  openDialog(columnId: string | undefined): void {
-    this.openedDialog.emit(columnId);
+  openDialog(dialogTitle: string): void {
+    const dialogRef = this.dialog.open(DialogComponent, {
+      width: '250px',
+      data: { dialogTitle },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.addTask(result);
+      }
+    });
+  }
+
+  addTask(title: string) {
+    this.boardService
+      .addTask$({
+        columnId: this.column._id,
+        title,
+      })
+      .subscribe(() => {
+        this.column.tasks.push({
+          title,
+          columnId: this.column._id,
+          likes: [],
+          comments: [],
+        });
+      });
   }
 
   like(taskId: string | undefined) {

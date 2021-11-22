@@ -55,14 +55,18 @@ export class BoardService {
     return c$;
   }
 
-  addColumn$(payload: Omit<IColumn, 'tasks'>): Observable<IColumn> {
+  addColumn$(payload: Omit<IColumn, '_id' | 'tasks'>): Observable<IColumn> {
     const c$ = this.http.post<IColumn>('/api/column', payload);
-
     return c$;
   }
 
   getTasks$(columnId: string): Observable<ITask[]> {
     return this.http.get<ITask[]>(`/api/column/${columnId}/tasks`);
+  }
+
+  addTask$(payload: ITask): Observable<ITask> {
+    const c$ = this.http.post<ITask>('/api/task', payload);
+    return c$;
   }
 
   handleError(error: HttpErrorResponse) {

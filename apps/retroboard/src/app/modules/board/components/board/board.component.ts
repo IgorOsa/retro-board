@@ -50,8 +50,13 @@ export class BoardComponent implements OnInit {
         boardId: this.board._id,
         title,
       })
-      .subscribe(() => {
-        this.board.columns.push({ title, boardId: this.board._id, tasks: [] });
+      .subscribe((res) => {
+        this.board.columns.push({
+          _id: res._id,
+          title,
+          boardId: this.board._id,
+          tasks: [],
+        });
       });
   }
 

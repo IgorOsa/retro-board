@@ -11,7 +11,7 @@ export interface IBoard {
 }
 
 export interface IColumn {
-  _id?: string;
+  _id: string;
   boardId: string;
   title: string;
   tasks: ITask[];
