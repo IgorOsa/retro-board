@@ -3,7 +3,6 @@ import { IBoard, IColumn } from '@retro-board/api-interfaces';
 import { BoardService } from '../../services/board.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from '../dialog/dialog.component';
-import { dialogAction } from '../dialog/dialog.model';
 import { delay } from 'rxjs/operators';
 import {
   CdkDragDrop,
@@ -32,7 +31,7 @@ export class BoardComponent implements OnInit {
       });
   }
 
-  openDialog(dialogTitle: string, action: dialogAction): void {
+  openDialog(dialogTitle: string): void {
     const dialogRef = this.dialog.open(DialogComponent, {
       width: '250px',
       data: { dialogTitle },
@@ -40,23 +39,21 @@ export class BoardComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        switch (action) {
-          case 'column':
-            this.addColumn(result);
-            break;
-          case 'task':
-            this.addTask(result);
-            break;
-          default:
-            break;
-        }
+        this.addColumn(result);
       }
     });
   }
 
   addColumn(title: string) {
     console.log('addColumn', this.board.columns);
-    this.board.columns?.push({ title, boardId: '' });
+    this.boardService
+      .addColumn$({
+        boardId: this.board._id,
+        title,
+      })
+      .subscribe((el) => {
+        this.board.columns?.push({ title, boardId: this.board._id });
+      });
   }
 
   addTask(title: string) {

@@ -6,7 +6,7 @@
     mat-raised-button
     class="btn__add-column"
     color="primary"
-    (click)="openDialog('Create Column', 'column')"
+    (click)="openDialog('Create Column')"
     matTooltip="Add Column"
   >
     <mat-icon aria-hidden="false" aria-label="Add Column" title="Add Column">
@@ -17,7 +17,7 @@
     <div class="column__container" *ngFor="let column of board.columns">
       <retro-board-column
         [column]="column"
-        (openedDialog)="openDialog('Create Task', 'task')"
+        (openedDialog)="openDialog('Create Task')"
         (droped)="drop($event)"
       ></retro-board-column>
     </div>

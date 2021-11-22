@@ -8,7 +8,10 @@ import { catchError, debounceTime, map, retry } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class BoardService {
-  public store$ = new BehaviorSubject<IBoard>({});
+  public store$ = new BehaviorSubject<IBoard>({
+    _id: '6197e48265c7a3830f70c880',
+    title: 'Demo board',
+  });
 
   constructor(private readonly http: HttpClient) {}
 
@@ -48,6 +51,12 @@ export class BoardService {
 
   getColumns$(): Observable<IColumn[]> {
     const c$ = this.http.get<IColumn[]>(`/api/column`);
+    return c$;
+  }
+
+  addColumn$(payload: IColumn): Observable<IColumn> {
+    const c$ = this.http.post<IColumn>('/api/column', payload);
+
     return c$;
   }
 

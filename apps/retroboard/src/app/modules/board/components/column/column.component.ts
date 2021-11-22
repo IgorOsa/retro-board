@@ -22,8 +22,8 @@ export class ColumnComponent {
     this.droped.emit(event);
   }
 
-  openDialog(): void {
-    this.openedDialog.emit();
+  openDialog(columnId: string | undefined): void {
+    this.openedDialog.emit(columnId);
   }
 
   like(taskId: string | undefined) {
