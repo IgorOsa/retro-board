@@ -1,14 +1,12 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { CustomBadRequestException } from '../../core/exceptions/badrequest.exception';
-import { CreatedResponse } from '../../core/models/created.model';
 import {
   Column,
   ColumnCreateRequest,
+  ColumnCreateResponse,
   ColumnDocument,
 } from '../schemas/column.schema';
-
-const MONGO_ENTITY_EXISTS_ERROR_CODE = 11000;
 
 @Injectable()
 export class ColumnService {
@@ -16,16 +14,11 @@ export class ColumnService {
     @Inject('COLUMN_MODEL') private readonly columnModel: Model<ColumnDocument>
   ) {}
 
-  async create(column: ColumnCreateRequest): Promise<CreatedResponse> {
+  async create(column: ColumnCreateRequest): Promise<ColumnCreateResponse> {
     try {
       const payload = JSON.parse(JSON.stringify(column));
-
-      await this.columnModel.create(payload);
-      return { message: 'Column created' };
+      return await this.columnModel.create(payload);
     } catch (err) {
-      if (err.code === MONGO_ENTITY_EXISTS_ERROR_CODE) {
-        throw new CustomBadRequestException('Column exists');
-      }
       throw new CustomBadRequestException(err.messsage);
     }
   }
@@ -33,18 +26,24 @@ export class ColumnService {
   async getAll(): Promise<Column[]> {
     try {
       const res = await this.columnModel.find({});
+      if (!res) {
+        throw new CustomBadRequestException(`No columns found`);
+      }
       return res;
     } catch (err) {
       throw new CustomBadRequestException(err.message);
     }
   }
 
-  async get(id: string) {
+  async get(_id: string) {
     try {
-      const res = await this.columnModel.findOne({ _id: id });
-      return res || { message: 'No columns found with id provided.' };
+      const res = await this.columnModel.findOne({ _id });
+      if (!res) {
+        throw new CustomBadRequestException(`No columns with id ${_id} found`);
+      }
+      return res;
     } catch (err) {
-      throw new CustomBadRequestException();
+      throw new CustomBadRequestException(err.message);
     }
   }
 }

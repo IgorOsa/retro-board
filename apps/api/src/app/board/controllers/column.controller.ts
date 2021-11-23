@@ -9,10 +9,12 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
-import { IMessage } from '@retro-board/api-interfaces';
 import { CustomBadRequestException } from '../../core/exceptions/badrequest.exception';
-import { CreatedResponse } from '../../core/models/created.model';
-import { Column, ColumnCreateRequest } from '../schemas/column.schema';
+import {
+  Column,
+  ColumnCreateRequest,
+  ColumnCreateResponse,
+} from '../schemas/column.schema';
 import { Task } from '../schemas/task.schema';
 import { ColumnService } from '../services/column.service';
 import { TaskService } from '../services/task.service';
@@ -29,7 +31,7 @@ export class ColumnController {
   @ApiOperation({ summary: 'Create column' })
   @ApiCreatedResponse({
     description: 'Column successfully created.',
-    type: CreatedResponse,
+    type: ColumnCreateResponse,
   })
   @ApiBadRequestResponse({
     description: 'Bad request.',
@@ -40,7 +42,9 @@ export class ColumnController {
     description: 'Internal server error',
   })
   @ApiBody({ description: 'Create column', type: ColumnCreateRequest })
-  async create(@Body() column: ColumnCreateRequest): Promise<IMessage> {
+  async create(
+    @Body() column: ColumnCreateRequest
+  ): Promise<ColumnCreateResponse> {
     const created = await this.columnService.create(column);
     return created;
   }

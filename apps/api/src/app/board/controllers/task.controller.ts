@@ -10,8 +10,11 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { CustomBadRequestException } from '../../core/exceptions/badrequest.exception';
-import { CreatedResponse } from '../../core/models/created.model';
-import { Task, TaskCreateRequest } from '../schemas/task.schema';
+import {
+  Task,
+  TaskCreateRequest,
+  TaskCreateResponse,
+} from '../schemas/task.schema';
 import { TaskService } from '../services/task.service';
 
 @ApiTags('task')
@@ -23,7 +26,7 @@ export class TaskController {
   @ApiOperation({ summary: 'Create task in column with provided id' })
   @ApiCreatedResponse({
     description: 'Task successfully created.',
-    type: CreatedResponse,
+    type: TaskCreateResponse,
   })
   @ApiBadRequestResponse({
     description: 'Bad request.',
@@ -34,7 +37,7 @@ export class TaskController {
     description: 'Internal server error',
   })
   @ApiBody({ description: 'Create task', type: TaskCreateRequest })
-  async createTask(@Body() task: Task): Promise<CreatedResponse> {
+  async createTask(@Body() task: Task): Promise<TaskCreateResponse> {
     const created = await this.taskService.create(task);
     return created;
   }

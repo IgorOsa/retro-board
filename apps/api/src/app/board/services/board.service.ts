@@ -4,8 +4,6 @@ import { CustomBadRequestException } from '../../core/exceptions/badrequest.exce
 
 import { Board, BoardDocument } from '../schemas/board.schema';
 
-const MONGO_ENTITY_EXISTS_ERROR_CODE = 11000;
-
 @Injectable()
 export class BoardService {
   constructor(
@@ -13,18 +11,22 @@ export class BoardService {
   ) {}
 
   async findOne(payload = {}): Promise<Board | null> {
-    const res = await this.boardModel.findOne(payload).exec();
-    return res;
+    try {
+      const res = await this.boardModel.findOne(payload).exec();
+      if (!res) {
+        throw new CustomBadRequestException(`No board found`);
+      }
+      return res;
+    } catch (err) {
+      throw new CustomBadRequestException(err.message);
+    }
   }
 
   create(board: Board): Promise<Board> {
     try {
       return this.boardModel.create(board);
     } catch (err) {
-      if (err.code === MONGO_ENTITY_EXISTS_ERROR_CODE) {
-        throw new CustomBadRequestException('Board exists');
-      }
-      throw new CustomBadRequestException();
+      throw new CustomBadRequestException(err.message);
     }
   }
 }
