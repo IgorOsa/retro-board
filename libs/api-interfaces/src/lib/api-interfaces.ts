@@ -18,7 +18,7 @@ export interface IColumn {
 }
 
 export interface ITask {
-  _id?: string;
+  _id: string;
   columnId: string;
   title: string;
   order: number;

@@ -10,6 +10,7 @@ import {
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
 import { SnackbarService } from '../../../../shared/services';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'retro-board-board',
@@ -76,20 +77,41 @@ export class BoardComponent implements OnInit {
 
   drop(event: CdkDragDrop<IColumn>): void {
     if (event.previousContainer === event.container) {
+      const entityToUpdate1 = event.container.data.tasks[event.previousIndex];
+      const entityToUpdate2 = event.container.data.tasks[event.currentIndex];
+      const payload1 = { ...entityToUpdate1, order: event.currentIndex };
+      const payload2 = { ...entityToUpdate2, order: event.previousIndex };
+
+      forkJoin([
+        this.boardService.updateTask$(entityToUpdate1._id, payload1),
+        this.boardService.updateTask$(entityToUpdate2._id, payload2),
+      ]).subscribe(() => {
+        this.snackbarService.open('Tasks order updated');
+      });
       moveItemInArray(
         event.container.data.tasks,
         event.previousIndex,
         event.currentIndex
       );
-      //TODO Make API call to update
     } else {
+      const entityToUpdate1 =
+        event.previousContainer.data.tasks[event.previousIndex];
+      const payload1 = {
+        ...entityToUpdate1,
+        order: event.currentIndex,
+        columnId: event.container.data._id,
+      };
+      this.boardService
+        .updateTask$(entityToUpdate1._id, payload1)
+        .subscribe(() => {
+          this.snackbarService.open('Tasks order updated');
+        });
       transferArrayItem(
         event.previousContainer.data.tasks,
         event.container.data.tasks,
         event.previousIndex,
         event.currentIndex
       );
-      //TODO Make API call to update
     }
   }
 }

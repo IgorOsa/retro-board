@@ -51,8 +51,9 @@ export class ColumnComponent {
         order: nextOrder,
       })
       .subscribe({
-        next: () => {
+        next: (el) => {
           this.column.tasks.push({
+            _id: el._id,
             title,
             columnId: this.column._id,
             order: nextOrder,

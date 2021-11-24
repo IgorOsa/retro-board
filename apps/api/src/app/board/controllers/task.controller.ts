@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiBody,
@@ -14,6 +14,7 @@ import {
   Task,
   TaskCreateRequest,
   TaskCreateResponse,
+  TaskUpdateRequest,
 } from '../schemas/task.schema';
 import { TaskService } from '../services/task.service';
 
@@ -58,6 +59,26 @@ export class TaskController {
   })
   async get(@Param('id') id: string) {
     const column = await this.taskService.get(id);
+    return column;
+  }
+
+  @Put(':id')
+  @ApiOperation({ summary: 'Update task by id.' })
+  @ApiOkResponse({
+    description: 'Task data.',
+    type: Task,
+  })
+  @ApiBadRequestResponse({
+    description: 'Bad request.',
+    type: CustomBadRequestException,
+  })
+  @ApiForbiddenResponse({ description: 'Forbidden.' })
+  @ApiInternalServerErrorResponse({
+    description: 'Internal server error',
+  })
+  @ApiBody({ description: 'Update task', type: TaskUpdateRequest })
+  async update(@Param('id') id: string, @Body() payload: Task) {
+    const column = await this.taskService.update(id, payload);
     return column;
   }
 }

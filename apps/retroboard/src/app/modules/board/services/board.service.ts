@@ -26,6 +26,10 @@ export class BoardService {
           columns: data[1].map((el) => {
             if (el?._id) {
               this.getTasks$(el._id).subscribe((t) => {
+                const sortFn = (a: ITask, b: ITask) => {
+                  return a.order > b.order ? 1 : -1;
+                };
+                t.sort(sortFn);
                 el.tasks = t;
               });
             }
@@ -59,8 +63,13 @@ export class BoardService {
     return this.http.get<ITask[]>(`/api/column/${columnId}/tasks`);
   }
 
-  addTask$(payload: ITask): Observable<ITask> {
+  addTask$(payload: Omit<ITask, '_id'>): Observable<ITask> {
     const c$ = this.http.post<ITask>('/api/task', payload);
+    return c$;
+  }
+
+  updateTask$(_id: string, payload: ITask) {
+    const c$ = this.http.put<ITask>(`/api/task/${_id}`, payload);
     return c$;
   }
 }

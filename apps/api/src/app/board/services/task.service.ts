@@ -43,4 +43,20 @@ export class TaskService {
       throw new CustomBadRequestException(err.message);
     }
   }
+
+  async update(_id: string, payload: Task): Promise<Task | IMessage> {
+    try {
+      const res = await this.taskModel.findOneAndUpdate({ _id }, payload, {
+        new: true,
+      });
+      if (!res) {
+        throw new CustomBadRequestException(
+          `No task for update found with id ${_id}`
+        );
+      }
+      return res;
+    } catch (err) {
+      throw new CustomBadRequestException(err.message);
+    }
+  }
 }
