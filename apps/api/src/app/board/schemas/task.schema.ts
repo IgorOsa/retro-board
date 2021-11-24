@@ -19,6 +19,10 @@ export class Task implements ITask {
   @ApiProperty({ example: 'Example task title' })
   @Prop({ required: true })
   title: string;
+
+  @ApiProperty({ example: 1 })
+  @Prop({ required: true })
+  order: number;
 }
 
 export const TaskSchema = SchemaFactory.createForClass(Task);

@@ -21,6 +21,7 @@ export interface ITask {
   _id?: string;
   columnId: string;
   title: string;
+  order: number;
   likes?: ILikes[];
   comments?: IComments[];
 }
