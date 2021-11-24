@@ -14,7 +14,7 @@ import { SnackbarService } from '../../../../shared/services';
 })
 export class ColumnComponent {
   @Input() column!: IColumn;
-  @Output() public droped = new EventEmitter();
+  @Output() public dropped = new EventEmitter();
   @Output() public openedDialog = new EventEmitter();
   public isLoading = true;
 
@@ -25,7 +25,7 @@ export class ColumnComponent {
   ) {}
 
   drop(event: CdkDragDrop<IColumn>): void {
-    this.droped.emit(event);
+    this.dropped.emit(event);
   }
 
   openDialog(dialogTitle: string): void {
@@ -42,19 +42,26 @@ export class ColumnComponent {
   }
 
   addTask(title: string) {
+    const nextOrder = this.column.tasks.length;
+
     this.boardService
       .addTask$({
         columnId: this.column._id,
         title,
+        order: nextOrder,
       })
-      .subscribe(() => {
-        this.column.tasks.push({
-          title,
-          columnId: this.column._id,
-          likes: [],
-          comments: [],
-        });
-        this.snackbarService.open('Task created');
+      .subscribe({
+        next: () => {
+          this.column.tasks.push({
+            title,
+            columnId: this.column._id,
+            order: nextOrder,
+            likes: [],
+            comments: [],
+          });
+        },
+        error: undefined,
+        complete: () => this.snackbarService.open('Task created'),
       });
   }
 
