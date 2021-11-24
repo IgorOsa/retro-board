@@ -67,32 +67,35 @@ export class BoardComponent implements OnInit {
       });
   }
 
-  like(taskId: string | undefined) {
+  like(taskId: string) {
     console.log('like', taskId);
   }
 
-  comment(taskId: string | undefined) {
+  comment(taskId: string) {
     console.log('comment', taskId);
   }
 
   drop(event: CdkDragDrop<IColumn>): void {
     if (event.previousContainer === event.container) {
-      const entityToUpdate1 = event.container.data.tasks[event.previousIndex];
-      const entityToUpdate2 = event.container.data.tasks[event.currentIndex];
-      const payload1 = { ...entityToUpdate1, order: event.currentIndex };
-      const payload2 = { ...entityToUpdate2, order: event.previousIndex };
+      if (event.previousIndex !== event.currentIndex) {
+        const entityToUpdate1 = event.container.data.tasks[event.previousIndex];
+        const entityToUpdate2 = event.container.data.tasks[event.currentIndex];
+        const payload1 = { ...entityToUpdate1, order: event.currentIndex };
+        const payload2 = { ...entityToUpdate2, order: event.previousIndex };
 
-      forkJoin([
-        this.boardService.updateTask$(entityToUpdate1._id, payload1),
-        this.boardService.updateTask$(entityToUpdate2._id, payload2),
-      ]).subscribe(() => {
-        this.snackbarService.open('Tasks order updated');
-      });
-      moveItemInArray(
-        event.container.data.tasks,
-        event.previousIndex,
-        event.currentIndex
-      );
+        forkJoin([
+          this.boardService.updateTask$(entityToUpdate1._id, payload1),
+          this.boardService.updateTask$(entityToUpdate2._id, payload2),
+        ]).subscribe(() => {
+          this.snackbarService.open('Tasks order updated');
+        });
+
+        moveItemInArray(
+          event.container.data.tasks,
+          event.previousIndex,
+          event.currentIndex
+        );
+      }
     } else {
       const entityToUpdate1 =
         event.previousContainer.data.tasks[event.previousIndex];
@@ -101,11 +104,13 @@ export class BoardComponent implements OnInit {
         order: event.currentIndex,
         columnId: event.container.data._id,
       };
+
       this.boardService
         .updateTask$(entityToUpdate1._id, payload1)
         .subscribe(() => {
           this.snackbarService.open('Tasks order updated');
         });
+
       transferArrayItem(
         event.previousContainer.data.tasks,
         event.container.data.tasks,
