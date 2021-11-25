@@ -8,7 +8,9 @@ import {
 } from '@nestjs/swagger';
 
 import { AppModule } from './app/app.module';
+import { AuthModule } from './app/auth/auth.module';
 import { BoardModule } from './app/board/board.module';
+import { UserModule } from './app/user/user.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -25,7 +27,7 @@ async function bootstrap() {
   const port = process.env.PORT || 3333;
 
   const options: SwaggerDocumentOptions = {
-    include: [BoardModule],
+    include: [AuthModule, BoardModule, UserModule],
     operationIdFactory: (controllerKey: string, methodKey: string) => methodKey,
   };
 
