@@ -59,4 +59,16 @@ export class TaskService {
       throw new CustomBadRequestException(err.message);
     }
   }
+
+  async remove(_id: string) {
+    try {
+      const res = await this.taskModel.findOneAndDelete({ _id });
+      if (!res) {
+        throw new CustomBadRequestException(`No task found with id ${_id}`);
+      }
+      return res;
+    } catch (err) {
+      throw new CustomBadRequestException(err.message);
+    }
+  }
 }

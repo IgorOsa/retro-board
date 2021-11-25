@@ -72,4 +72,9 @@ export class BoardService {
     const c$ = this.http.put<ITask>(`/api/task/${_id}`, payload);
     return c$;
   }
+
+  removeTask$(_id: string) {
+    const c$ = this.http.delete<ITask>(`/api/task/${_id}`);
+    return c$;
+  }
 }

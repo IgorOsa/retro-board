@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiBody,
@@ -80,5 +88,20 @@ export class TaskController {
   async update(@Param('id') id: string, @Body() payload: Task) {
     const column = await this.taskService.update(id, payload);
     return column;
+  }
+
+  @Delete(':id')
+  @ApiOperation({ summary: 'Remove task by id.' })
+  @ApiOkResponse({ description: 'Task removed successfully.' })
+  @ApiBadRequestResponse({
+    description: 'Bad request.',
+    type: CustomBadRequestException,
+  })
+  @ApiForbiddenResponse({ description: 'Forbidden.' })
+  @ApiInternalServerErrorResponse({
+    description: 'Internal server error',
+  })
+  async remove(@Param('id') id: string) {
+    return await this.taskService.remove(id);
   }
 }

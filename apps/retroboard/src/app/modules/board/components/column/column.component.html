@@ -25,6 +25,22 @@
     <mat-card-title>
       {{ task.title }}
     </mat-card-title>
+    <div style="position: absolute; top: 0; right: 0">
+      <button
+        mat-icon-button
+        [matMenuTriggerFor]="menu"
+        aria-label="Task menu icon-button"
+        #menuTrigger
+      >
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="openDeleteDialog('task', task._id)">
+          <mat-icon>delete</mat-icon>
+          <span>Delete</span>
+        </button>
+      </mat-menu>
+    </div>
     <mat-card-actions>
       <button mat-button>
         <mat-icon

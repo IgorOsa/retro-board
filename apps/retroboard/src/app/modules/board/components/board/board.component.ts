@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { IBoard, IColumn } from '@retro-board/api-interfaces';
 import { BoardService } from '../../services/board.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -39,6 +39,7 @@ export class BoardComponent implements OnInit {
 
   openDialog(dialogTitle: string): void {
     const dialogRef = this.dialog.open(DialogComponent, {
+      autoFocus: false,
       width: '250px',
       data: { dialogTitle },
     });
