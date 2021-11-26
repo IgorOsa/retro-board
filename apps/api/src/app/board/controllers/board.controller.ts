@@ -1,6 +1,7 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
+  ApiBearerAuth,
   ApiBody,
   ApiCreatedResponse,
   ApiForbiddenResponse,
@@ -17,6 +18,7 @@ import {
   BoardCreateResponse,
 } from '../schemas/board.schema';
 import { IMessage } from '@retro-board/api-interfaces';
+import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 
 @ApiTags('board')
 @Controller('board')
@@ -43,6 +45,8 @@ export class BoardController {
   }
 
   @Post()
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Create board' })
   @ApiCreatedResponse({
     description: 'Board successfully created.',

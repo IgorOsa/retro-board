@@ -1,6 +1,7 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
+  ApiBearerAuth,
   ApiBody,
   ApiCreatedResponse,
   ApiForbiddenResponse,
@@ -9,6 +10,7 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
+import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { CustomBadRequestException } from '../../core/exceptions/badrequest.exception';
 import {
   Column,
@@ -28,6 +30,8 @@ export class ColumnController {
   ) {}
 
   @Post()
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Create column' })
   @ApiCreatedResponse({
     description: 'Column successfully created.',
@@ -50,6 +54,8 @@ export class ColumnController {
   }
 
   @Get()
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Get columns' })
   @ApiOkResponse({
     description: 'Columns list',
@@ -69,6 +75,8 @@ export class ColumnController {
   }
 
   @Get(':id')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Get column by id' })
   @ApiOkResponse({
     description: 'Column data.',
@@ -88,6 +96,8 @@ export class ColumnController {
   }
 
   @Get(':columnId/tasks')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Get tasks for column with id' })
   @ApiOkResponse({ description: 'Task list for column id', type: Task })
   @ApiBadRequestResponse({

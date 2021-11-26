@@ -6,9 +6,11 @@ import {
   Param,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
+  ApiBearerAuth,
   ApiBody,
   ApiCreatedResponse,
   ApiForbiddenResponse,
@@ -17,6 +19,7 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
+import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { CustomBadRequestException } from '../../core/exceptions/badrequest.exception';
 import {
   Task,
@@ -32,6 +35,8 @@ export class TaskController {
   constructor(private taskService: TaskService) {}
 
   @Post()
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Create task in column with provided id' })
   @ApiCreatedResponse({
     description: 'Task successfully created.',
@@ -52,6 +57,8 @@ export class TaskController {
   }
 
   @Get(':id')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Get task by id' })
   @ApiOkResponse({
     description: 'Task data.',
@@ -71,6 +78,8 @@ export class TaskController {
   }
 
   @Put(':id')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Update task by id.' })
   @ApiOkResponse({
     description: 'Task data.',
@@ -91,6 +100,8 @@ export class TaskController {
   }
 
   @Delete(':id')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Remove task by id.' })
   @ApiOkResponse({ description: 'Task removed successfully.' })
   @ApiBadRequestResponse({
