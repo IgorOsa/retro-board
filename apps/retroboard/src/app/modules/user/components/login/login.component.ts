@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../../core/services/auth/auth.service';
+import { SnackbarService } from '../../../../shared/services/snackbar/snackbar.service';
 
 @Component({
   templateUrl: './login.component.html',
@@ -13,7 +14,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private snackbarService: SnackbarService
   ) {}
 
   ngOnInit() {
@@ -31,7 +33,7 @@ export class LoginComponent implements OnInit {
 
     if (email && password) {
       this.authService.login(email, password).subscribe(() => {
-        console.log('User is logged in');
+        this.snackbarService.open('Logged  in.');
         this.router.navigateByUrl('/');
       });
     }
