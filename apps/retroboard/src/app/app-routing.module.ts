@@ -8,6 +8,13 @@ const routes: Routes = [
       import('./modules/board/board.module').then((m) => m.BoardModule),
   },
   {
+    path: 'user',
+    loadChildren: () =>
+      import('./modules/user/user.module').then((m) => m.UserModule),
+  },
+  { path: 'register', redirectTo: 'user/register' },
+  { path: 'login', redirectTo: 'user/login' },
+  {
     path: '',
     redirectTo: '/board',
     pathMatch: 'full',

@@ -1,0 +1,50 @@
+<form [formGroup]="registerForm" (submit)="register()">
+  <mat-card>
+    <mat-card-title> Registration </mat-card-title>
+    <mat-card-content>
+      <mat-form-field>
+        <mat-label>First Name</mat-label>
+        <input matInput formControlName="firstName" />
+        <mat-error>
+          {{
+            registerForm.controls['firstName']?.errors | validator: 'First Name'
+          }}
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Last Name</mat-label>
+        <input matInput formControlName="lastName" />
+        <mat-error>
+          {{
+            registerForm.controls['lastName']?.errors | validator: 'Last Name'
+          }}
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" type="email" />
+        <mat-error>
+          {{ registerForm.controls['email']?.errors | validator: 'Email' }}
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Password</mat-label>
+        <input matInput formControlName="password" type="password" />
+        <mat-error>
+          {{
+            registerForm.controls['password']?.errors | validator: 'Password'
+          }}
+        </mat-error>
+      </mat-form-field>
+    </mat-card-content>
+    <mat-card-actions>
+      <button
+        mat-raised-button
+        color="primary"
+        [disabled]="!registerForm.valid"
+      >
+        Register
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</form>

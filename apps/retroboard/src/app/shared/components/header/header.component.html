@@ -1,9 +1,38 @@
 <header>
   <mat-toolbar>
-    <span class="header__title">{{ title }}</span>
-    <span class="header__spacer"></span>
+    <span class="title">{{ title }}</span>
+    <span class="spacer"></span>
     <button mat-raised-button color="primary">
-      <mat-icon aria-hidden="false" aria-label="Home">home</mat-icon>
+      <mat-icon aria-hidden="false" aria-label="Home" (click)="goToRoute('/')">
+        home
+      </mat-icon>
+    </button>
+    <button
+      *ngIf="!isLoggedIn"
+      class="header__btn"
+      mat-raised-button
+      color="primary"
+      (click)="goToRoute('register')"
+    >
+      Register
+    </button>
+    <button
+      *ngIf="!isLoggedIn"
+      class="header__btn"
+      mat-raised-button
+      color="primary"
+      (click)="goToRoute('login')"
+    >
+      LogIn
+    </button>
+    <button
+      *ngIf="isLoggedIn"
+      class="header__btn"
+      mat-raised-button
+      color="primary"
+      (click)="logout()"
+    >
+      LogOut
     </button>
   </mat-toolbar>
   <mat-divider></mat-divider>
