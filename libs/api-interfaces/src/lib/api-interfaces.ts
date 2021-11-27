@@ -27,12 +27,10 @@ export interface ITask {
 }
 
 export interface ILike {
-  taskId?: string;
   userId: string;
 }
 
 export interface IComment {
-  taskId?: string;
   userId?: string;
   text: string;
 }
