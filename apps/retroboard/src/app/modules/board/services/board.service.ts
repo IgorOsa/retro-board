@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { IBoard, IColumn, ITask } from '@retro-board/api-interfaces';
+import { IBoard, IColumn, IComment, ITask } from '@retro-board/api-interfaces';
 import { BehaviorSubject, forkJoin, Observable } from 'rxjs';
 import { debounceTime, map, retry } from 'rxjs/operators';
 
@@ -75,6 +75,11 @@ export class BoardService {
 
   removeTask$(_id: string) {
     const c$ = this.http.delete<ITask>(`/api/task/${_id}`);
+    return c$;
+  }
+
+  addComment$(_id: string, payload: IComment) {
+    const c$ = this.http.post<IComment>(`/api/task/${_id}/comment`, payload);
     return c$;
   }
 }

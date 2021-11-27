@@ -1,0 +1,41 @@
+<mat-card [cdkDragData]="task" class="column__box" cdkDrag>
+  <mat-card-title>
+    {{ task.title }}
+  </mat-card-title>
+  <div style="position: absolute; top: 0; right: 0">
+    <button
+      mat-icon-button
+      [matMenuTriggerFor]="menu"
+      aria-label="Task menu icon-button"
+      #menuTrigger
+    >
+      <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="openDeleteDialog(task._id)">
+        <mat-icon>delete</mat-icon>
+        <span>Delete</span>
+      </button>
+    </mat-menu>
+  </div>
+  <mat-card-actions>
+    <button mat-button>
+      <mat-icon aria-hidden="false" aria-label="Like" (click)="like(task?._id)"
+        >thumb_up</mat-icon
+      >
+      <span class="task__votes">{{ task.likes.length }}</span>
+    </button>
+    <button mat-button (click)="toggleCommentForm()">
+      <mat-icon aria-hidden="false" aria-label="Comment"> comment </mat-icon>
+      <span class="task__comments">{{ task.comments.length }}</span>
+    </button>
+  </mat-card-actions>
+  <retro-board-comment-form
+    *ngIf="showCommentForm"
+    (submitCommentEvent)="addComment($event)"
+  ></retro-board-comment-form>
+  <retro-board-comments
+    *ngIf="showCommentForm"
+    [task]="task"
+  ></retro-board-comments>
+</mat-card>

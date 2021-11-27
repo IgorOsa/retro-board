@@ -6,7 +6,6 @@ import { IColumn } from '@retro-board/api-interfaces';
 import { BoardService } from '../../services/board.service';
 import { DialogComponent } from '../dialog/dialog.component';
 import { SnackbarService } from '../../../../shared/services';
-import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'retro-board-column',
@@ -43,20 +42,6 @@ export class ColumnComponent {
     });
   }
 
-  openDeleteDialog(entity: string, _id: string): void {
-    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      restoreFocus: false,
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        if (entity === 'task') {
-          this.removeTask(_id);
-        }
-      }
-    });
-  }
-
   addTask(title: string) {
     const nextOrder = this.column.tasks.length;
 
@@ -65,6 +50,8 @@ export class ColumnComponent {
         columnId: this.column._id,
         title,
         order: nextOrder,
+        likes: [],
+        comments: [],
       })
       .subscribe({
         next: (el) => {
@@ -82,6 +69,10 @@ export class ColumnComponent {
       });
   }
 
+  removeTaskEvent(_id: string) {
+    this.removeTask(_id);
+  }
+
   removeTask(_id: string) {
     this.boardService.removeTask$(_id).subscribe((data) => {
       if (data) {
@@ -90,13 +81,5 @@ export class ColumnComponent {
         this.snackbarService.open('Task deleted');
       }
     });
-  }
-
-  like(taskId: string | undefined) {
-    console.log('like', taskId);
-  }
-
-  comment(taskId: string | undefined) {
-    console.log('comment', taskId);
   }
 }

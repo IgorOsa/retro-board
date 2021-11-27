@@ -1,0 +1,14 @@
+<mat-form-field appearance="fill">
+  <mat-label>Comment</mat-label>
+  <textarea
+    matInput
+    cdkTextareaAutosize
+    #autosize="cdkTextareaAutosize"
+    cdkAutosizeMinRows="1"
+    cdkAutosizeMaxRows="5"
+    [(ngModel)]="commentInput"
+  ></textarea>
+  <button mat-icon-button color="primary" (click)="submit()">
+    <mat-icon>done</mat-icon>
+  </button>
+</mat-form-field>

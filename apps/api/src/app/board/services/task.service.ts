@@ -2,6 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { IMessage } from '@retro-board/api-interfaces';
 import { Model } from 'mongoose';
 import { CustomBadRequestException } from '../../core/exceptions/badrequest.exception';
+import { Comment } from '../schemas/comments.schema';
 import { Task, TaskCreateResponse, TaskDocument } from '../schemas/task.schema';
 
 @Injectable()
@@ -67,6 +68,23 @@ export class TaskService {
         throw new CustomBadRequestException(`No task found with id ${_id}`);
       }
       return res;
+    } catch (err) {
+      throw new CustomBadRequestException(err.message);
+    }
+  }
+
+  async addComment(_id: string, payload: Comment): Promise<Comment[]> {
+    try {
+      const res = await this.taskModel.findOneAndUpdate(
+        { _id },
+        { $push: { comments: payload } },
+        {
+          // new: true,
+          upsert: true,
+        }
+      );
+
+      return res.comments;
     } catch (err) {
       throw new CustomBadRequestException(err.message);
     }

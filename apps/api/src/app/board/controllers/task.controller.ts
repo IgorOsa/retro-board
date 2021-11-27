@@ -21,6 +21,7 @@ import {
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { CustomBadRequestException } from '../../core/exceptions/badrequest.exception';
+import { Comment } from '../schemas/comments.schema';
 import {
   Task,
   TaskCreateRequest,
@@ -114,5 +115,30 @@ export class TaskController {
   })
   async remove(@Param('id') id: string) {
     return await this.taskService.remove(id);
+  }
+
+  @Post(':id/comment')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Add comment to task comments array' })
+  @ApiCreatedResponse({
+    description: 'Comment successfully added.',
+    type: Comment,
+  })
+  @ApiBadRequestResponse({
+    description: 'Bad request.',
+    type: CustomBadRequestException,
+  })
+  @ApiForbiddenResponse({ description: 'Forbidden.' })
+  @ApiInternalServerErrorResponse({
+    description: 'Internal server error',
+  })
+  @ApiBody({ description: 'Add comment', type: Comment })
+  async addComment(
+    @Param('id') id: string,
+    @Body() comment: Comment
+  ): Promise<any> {
+    const created = await this.taskService.addComment(id, comment);
+    return created;
   }
 }

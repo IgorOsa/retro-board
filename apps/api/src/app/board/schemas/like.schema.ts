@@ -1,12 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
-import { ILikes } from '@retro-board/api-interfaces';
+import { ILike } from '@retro-board/api-interfaces';
 
 @Schema({
   versionKey: false,
 })
-export class Likes implements ILikes {
+export class Like implements ILike {
   @ApiProperty({ example: '619671f9f302700e286b94df' })
   @Prop()
   taskId?: string;
@@ -16,4 +16,4 @@ export class Likes implements ILikes {
   userId?: string;
 }
 
-export const LikeSchema = SchemaFactory.createForClass(Likes);
+export const LikeSchema = SchemaFactory.createForClass(Like);

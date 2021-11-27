@@ -1,0 +1,6 @@
+<div *ngFor="let comment of task.comments">
+  <mat-card>
+    <mat-card-title>{{ comment.text }}</mat-card-title>
+    <mat-card-subtitle>{{ comment.userId || 'Unknown' }}</mat-card-subtitle>
+  </mat-card>
+</div>

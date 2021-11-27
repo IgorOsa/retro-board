@@ -2,6 +2,8 @@ import { ApiProperty, OmitType, PartialType } from '@nestjs/swagger';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
 import { ITask } from '@retro-board/api-interfaces';
+import { Like } from './like.schema';
+import { Comment } from './comments.schema';
 
 export type TaskDocument = Task & Document;
 
@@ -23,6 +25,12 @@ export class Task implements ITask {
   @ApiProperty({ example: 1 })
   @Prop({ required: true })
   order: number;
+
+  @Prop({ default: [] })
+  comments: Comment[];
+
+  @Prop({ default: [] })
+  likes: Like[];
 }
 
 export const TaskSchema = SchemaFactory.createForClass(Task);

@@ -22,16 +22,16 @@ export interface ITask {
   columnId: string;
   title: string;
   order: number;
-  likes?: ILikes[];
-  comments?: IComments[];
+  likes: ILike[];
+  comments: IComment[];
 }
 
-export interface ILikes {
+export interface ILike {
   taskId?: string;
-  userId?: string;
+  userId: string;
 }
 
-export interface IComments {
+export interface IComment {
   taskId?: string;
   userId?: string;
   text: string;

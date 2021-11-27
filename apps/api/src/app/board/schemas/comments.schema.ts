@@ -1,15 +1,15 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
-import { IComments } from '@retro-board/api-interfaces';
+import { IComment } from '@retro-board/api-interfaces';
 
 @Schema({
   versionKey: false,
 })
-export class Comments implements IComments {
-  @ApiProperty({ example: '619671f9f302700e286b94df' })
-  @Prop()
-  taskId?: string;
+export class Comment implements IComment {
+  // @ApiProperty({ example: '619671f9f302700e286b94df' })
+  // @Prop()
+  // taskId?: string;
 
   @ApiProperty({ example: '619671f9f302700e286b94df' })
   @Prop()
@@ -20,4 +20,4 @@ export class Comments implements IComments {
   text: string;
 }
 
-export const CommentSchema = SchemaFactory.createForClass(Comments);
+export const CommentSchema = SchemaFactory.createForClass(Comment);
