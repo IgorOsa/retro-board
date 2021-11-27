@@ -16,7 +16,6 @@ export class ColumnComponent {
   @Input() column!: IColumn;
   @Output() public dropped = new EventEmitter();
   @Output() public openedDialog = new EventEmitter();
-  public isLoading = true;
 
   constructor(
     private boardService: BoardService,

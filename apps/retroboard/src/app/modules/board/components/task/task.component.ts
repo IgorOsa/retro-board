@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ITask } from '@retro-board/api-interfaces';
+import { UserService } from '../../../user/services/user.service';
 import { BoardService } from '../../services/board.service';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 
@@ -14,7 +15,11 @@ export class TaskComponent {
   @Input() task!: ITask;
   @Output() removeTaskEvent = new EventEmitter();
 
-  constructor(private boardService: BoardService, public dialog: MatDialog) {}
+  constructor(
+    private userService: UserService,
+    private boardService: BoardService,
+    public dialog: MatDialog
+  ) {}
 
   openDeleteDialog(_id: string): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
@@ -33,7 +38,8 @@ export class TaskComponent {
   }
 
   addComment(text: string) {
-    const comment = { text };
+    const userId = this.userService.store$.value._id;
+    const comment = { text, userId };
     this.boardService.addComment$(this.task._id, comment).subscribe(() => {
       this.task.comments.push(comment);
     });
