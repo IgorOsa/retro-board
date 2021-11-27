@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { IUserResponse } from '@tutorio/api-interfaces';
+import { IUserResponse } from '@retro-board/api-interfaces';
 
 @Injectable({
   providedIn: 'root',
