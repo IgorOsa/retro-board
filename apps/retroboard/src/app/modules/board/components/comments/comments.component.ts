@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { ITask } from '@retro-board/api-interfaces';
+import { IComment } from '@retro-board/api-interfaces';
 
 @Component({
   selector: 'retro-board-comments',
@@ -7,5 +7,6 @@ import { ITask } from '@retro-board/api-interfaces';
   styleUrls: ['./comments.component.scss'],
 })
 export class CommentsComponent {
-  @Input() task!: ITask;
+  @Input() taskId!: string;
+  public comments: IComment[] = [];
 }

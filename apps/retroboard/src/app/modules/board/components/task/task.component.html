@@ -34,7 +34,7 @@
   ></retro-board-comment-form>
   <retro-board-comments
     *ngIf="showCommentForm"
-    [task]="task"
+    [taskId]="task._id"
   ></retro-board-comments>
   <mat-card-footer>
     <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
