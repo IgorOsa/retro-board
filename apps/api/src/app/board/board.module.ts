@@ -7,11 +7,24 @@ import { ColumnController } from './controllers/column.controller';
 import { ColumnService } from './services/column.service';
 import { TaskService } from './services/task.service';
 import { TaskController } from './controllers/task.controller';
+import { LikeService } from './services/like.service';
+import { LikeController } from './controllers/like.controller ';
 
 @Module({
   imports: [DbModule],
   exports: [BoardModule],
-  controllers: [BoardController, ColumnController, TaskController],
-  providers: [BoardService, ...boardProviders, ColumnService, TaskService],
+  controllers: [
+    BoardController,
+    ColumnController,
+    TaskController,
+    LikeController,
+  ],
+  providers: [
+    BoardService,
+    ...boardProviders,
+    ColumnService,
+    TaskService,
+    LikeService,
+  ],
 })
 export class BoardModule {}

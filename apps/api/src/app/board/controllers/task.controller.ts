@@ -22,6 +22,7 @@ import {
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { CustomBadRequestException } from '../../core/exceptions/badrequest.exception';
 import { Comment } from '../schemas/comments.schema';
+import { Like } from '../schemas/like.schema';
 import {
   Task,
   TaskCreateRequest,
@@ -117,12 +118,34 @@ export class TaskController {
     return await this.taskService.remove(id);
   }
 
-  @Post(':id/comment')
+  @Get(':id/likes')
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
-  @ApiOperation({ summary: 'Add comment to task comments array' })
+  @ApiOperation({ summary: 'Get likes for task by id' })
   @ApiCreatedResponse({
-    description: 'Comment successfully added.',
+    description: 'Array of likes',
+    type: [Like],
+  })
+  @ApiBadRequestResponse({
+    description: 'Bad request.',
+    type: CustomBadRequestException,
+  })
+  @ApiForbiddenResponse({ description: 'Forbidden.' })
+  @ApiInternalServerErrorResponse({
+    description: 'Internal server error',
+  })
+  @ApiBody({ description: 'TaskId', type: Like })
+  async getLikes(@Param('id') taskId: string) {
+    const created = await this.taskService.getLikes(taskId);
+    return created;
+  }
+
+  @Post(':id/comments')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Get comments for task by id' })
+  @ApiOkResponse({
+    description: 'Task comments.',
     type: Comment,
   })
   @ApiBadRequestResponse({
@@ -133,12 +156,9 @@ export class TaskController {
   @ApiInternalServerErrorResponse({
     description: 'Internal server error',
   })
-  @ApiBody({ description: 'Add comment', type: Comment })
-  async addComment(
-    @Param('id') id: string,
-    @Body() comment: Comment
-  ): Promise<any> {
-    const created = await this.taskService.addComment(id, comment);
-    return created;
+  async addComment(@Param('id') taskId: string) {
+    // const comments = await this.taskService.get(taskId);
+    // return comments;
+    return [];
   }
 }

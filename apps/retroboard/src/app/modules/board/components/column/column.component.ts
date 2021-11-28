@@ -49,8 +49,6 @@ export class ColumnComponent {
         columnId: this.column._id,
         title,
         order: nextOrder,
-        likes: [],
-        comments: [],
       })
       .subscribe({
         next: (el) => {
@@ -59,8 +57,6 @@ export class ColumnComponent {
             title,
             columnId: this.column._id,
             order: nextOrder,
-            likes: [],
-            comments: [],
           });
         },
         error: undefined,

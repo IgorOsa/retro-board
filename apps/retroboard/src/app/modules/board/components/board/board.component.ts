@@ -68,14 +68,6 @@ export class BoardComponent implements OnInit {
       });
   }
 
-  like(taskId: string) {
-    console.log('like', taskId);
-  }
-
-  comment(taskId: string) {
-    console.log('comment', taskId);
-  }
-
   drop(event: CdkDragDrop<IColumn>): void {
     if (event.previousContainer === event.container) {
       if (event.previousIndex !== event.currentIndex) {

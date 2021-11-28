@@ -1,6 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { IBoard, IColumn, IComment, ITask } from '@retro-board/api-interfaces';
+import {
+  IBoard,
+  IColumn,
+  IComment,
+  ILike,
+  ITask,
+} from '@retro-board/api-interfaces';
 import { BehaviorSubject, forkJoin, Observable } from 'rxjs';
 import { debounceTime, map, retry } from 'rxjs/operators';
 
@@ -8,7 +14,7 @@ import { debounceTime, map, retry } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class BoardService {
-  public store$ = new BehaviorSubject<IBoard>({
+  public store$: BehaviorSubject<IBoard> = new BehaviorSubject<IBoard>({
     _id: '6197e48265c7a3830f70c880',
     title: 'Demo board',
     columns: [],
@@ -80,6 +86,21 @@ export class BoardService {
 
   addComment$(_id: string, payload: IComment) {
     const c$ = this.http.post<IComment>(`/api/task/${_id}/comment`, payload);
+    return c$;
+  }
+
+  getLikes(taskId: string) {
+    const c$ = this.http.get<ILike[]>(`/api/task/${taskId}/likes`);
+    return c$;
+  }
+
+  addLike$(payload: ILike) {
+    const c$ = this.http.post<ILike>(`/api/like`, payload);
+    return c$;
+  }
+
+  removeLike$(payload: ILike) {
+    const c$ = this.http.post<ILike>(`/api/like/remove`, payload);
     return c$;
   }
 }

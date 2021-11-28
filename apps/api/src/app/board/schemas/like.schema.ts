@@ -3,10 +3,16 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
 import { ILike } from '@retro-board/api-interfaces';
 
+export type LikeDocument = Like & Document;
+
 @Schema({
   versionKey: false,
 })
 export class Like implements ILike {
+  @ApiProperty({ example: '619671f9f302700e286b94df' })
+  @Prop()
+  taskId: string;
+
   @ApiProperty({ example: '619671f9f302700e286b94df' })
   @Prop()
   userId: string;

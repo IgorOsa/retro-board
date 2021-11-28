@@ -11,6 +11,7 @@ import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.compone
   styleUrls: ['./task.component.scss'],
 })
 export class TaskComponent {
+  public isLoading = false;
   public showCommentForm = false;
   @Input() task!: ITask;
   @Output() removeTaskEvent = new EventEmitter();
@@ -33,19 +34,19 @@ export class TaskComponent {
     });
   }
 
-  like(taskId: string | undefined) {
-    console.log('like', taskId);
-  }
-
   addComment(text: string) {
     const userId = this.userService.store$.value._id;
     const comment = { text, userId };
     this.boardService.addComment$(this.task._id, comment).subscribe(() => {
-      this.task.comments.push(comment);
+      // this.task.comments.push(comment);
     });
   }
 
   toggleCommentForm() {
     this.showCommentForm = !this.showCommentForm;
+  }
+
+  setLoading(event: boolean) {
+    this.isLoading = event;
   }
 }

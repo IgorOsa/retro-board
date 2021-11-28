@@ -10,6 +10,7 @@ import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dial
 import { CommentFormComponent } from './components/comment-form/comment-form.component';
 import { TaskComponent } from './components/task/task.component';
 import { CommentsComponent } from './components/comments/comments.component';
+import { LikeComponent } from './components/like/like.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { CommentsComponent } from './components/comments/comments.component';
     CommentFormComponent,
     TaskComponent,
     CommentsComponent,
+    LikeComponent,
   ],
   imports: [CommonModule, BoardRoutingModule, SharedModule],
   exports: [BoardComponent],

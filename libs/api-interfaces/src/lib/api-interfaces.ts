@@ -22,12 +22,12 @@ export interface ITask {
   columnId: string;
   title: string;
   order: number;
-  likes: ILike[];
-  comments: IComment[];
 }
 
 export interface ILike {
+  _id?: string;
   userId: string;
+  taskId: string;
 }
 
 export interface IComment {
