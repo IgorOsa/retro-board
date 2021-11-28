@@ -6,7 +6,7 @@ export interface IUser {
 }
 
 export interface IUserResponse extends Omit<IUser, 'password'> {
-  _id?: string;
+  _id: string;
 }
 
 export interface IAuthResponse {

@@ -25,7 +25,7 @@ export class UserService {
     return this.userModel.find(payload).exec();
   }
 
-  async findOne(id: string): Promise<User | undefined> {
-    return this.userModel.findOne({ id }).exec();
+  async findOne(payload: Partial<User>): Promise<User> {
+    return this.userModel.findOne(payload).exec();
   }
 }

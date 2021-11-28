@@ -65,8 +65,10 @@ export class UserController {
     description: 'Internal server error',
   })
   async findOne(@Request() req): Promise<User> {
-    const { userId } = req.user;
-    const user = await this.userService.findOne(userId);
+    const user = await this.userService.findOne({
+      _id: req.user.userId,
+      email: req.user.username,
+    });
     return user.toResponse();
   }
 }
