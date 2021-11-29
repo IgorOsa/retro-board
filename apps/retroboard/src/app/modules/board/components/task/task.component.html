@@ -1,4 +1,7 @@
 <mat-card [cdkDragData]="task" class="column__box" cdkDrag>
+  <span class="drag-handle" cdkDragHandle>
+    <mat-icon>drag_indicator</mat-icon>
+  </span>
   <mat-card-title>
     {{ task.title }}
   </mat-card-title>
