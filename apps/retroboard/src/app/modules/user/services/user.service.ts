@@ -18,4 +18,8 @@ export class UserService {
   getUserData$() {
     return this.http.get<IUserResponse>(`/api/user`);
   }
+
+  getUserById$(userId: string) {
+    return this.http.get<IUserResponse>(`/api/user/${userId}`);
+  }
 }

@@ -5,6 +5,7 @@ import {
   Request,
   Post,
   UseGuards,
+  Param,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -68,6 +69,29 @@ export class UserController {
     const user = await this.userService.findOne({
       _id: req.user.userId,
       email: req.user.username,
+    });
+    return user.toResponse();
+  }
+
+  @Get(':id')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Get user by id' })
+  @ApiOkResponse({
+    description: `Get user by id`,
+    type: UserResponse,
+  })
+  @ApiBadRequestResponse({
+    description: 'Bad request.',
+    type: CustomBadRequestException,
+  })
+  @ApiForbiddenResponse({ description: 'Forbidden.' })
+  @ApiInternalServerErrorResponse({
+    description: 'Internal server error',
+  })
+  async getUserById(@Param('id') userId: string): Promise<User> {
+    const user = await this.userService.findOne({
+      _id: userId,
     });
     return user.toResponse();
   }

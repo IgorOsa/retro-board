@@ -22,10 +22,18 @@ export class UserService {
   }
 
   async find(payload = {}): Promise<User[]> {
-    return this.userModel.find(payload).exec();
+    try {
+      return this.userModel.find(payload).exec();
+    } catch (err) {
+      throw new CustomBadRequestException(err.message);
+    }
   }
 
   async findOne(payload: Partial<User>): Promise<User> {
-    return this.userModel.findOne(payload).exec();
+    try {
+      return this.userModel.findOne(payload).exec();
+    } catch (err) {
+      throw new CustomBadRequestException(err.message);
+    }
   }
 }

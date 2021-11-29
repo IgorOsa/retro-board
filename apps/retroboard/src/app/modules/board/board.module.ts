@@ -12,6 +12,7 @@ import { TaskComponent } from './components/task/task.component';
 import { CommentsComponent } from './components/comments/comments.component';
 import { LikeComponent } from './components/like/like.component';
 import { CommentButtonComponent } from './components/comment-button/comment-button.component';
+import { CommentItemComponent } from './components/comment-item/comment-item.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { CommentButtonComponent } from './components/comment-button/comment-butt
     CommentsComponent,
     LikeComponent,
     CommentButtonComponent,
+    CommentItemComponent,
   ],
   imports: [CommonModule, BoardRoutingModule, SharedModule],
   exports: [BoardComponent],
