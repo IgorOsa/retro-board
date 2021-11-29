@@ -11,6 +11,7 @@ import { CommentFormComponent } from './components/comment-form/comment-form.com
 import { TaskComponent } from './components/task/task.component';
 import { CommentsComponent } from './components/comments/comments.component';
 import { LikeComponent } from './components/like/like.component';
+import { CommentButtonComponent } from './components/comment-button/comment-button.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { LikeComponent } from './components/like/like.component';
     TaskComponent,
     CommentsComponent,
     LikeComponent,
+    CommentButtonComponent,
   ],
   imports: [CommonModule, BoardRoutingModule, SharedModule],
   exports: [BoardComponent],

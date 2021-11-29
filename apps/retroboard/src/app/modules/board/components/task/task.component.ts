@@ -1,6 +1,6 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ITask } from '@retro-board/api-interfaces';
+import { IComment, ITask } from '@retro-board/api-interfaces';
 import { UserService } from '../../../user/services/user.service';
 import { BoardService } from '../../services/board.service';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
@@ -10,9 +10,10 @@ import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.compone
   templateUrl: './task.component.html',
   styleUrls: ['./task.component.scss'],
 })
-export class TaskComponent {
+export class TaskComponent implements OnInit {
   public isLoading = false;
   public showCommentForm = false;
+  public comments: IComment[] = [];
   @Input() task!: ITask;
   @Output() removeTaskEvent = new EventEmitter();
 
@@ -21,6 +22,14 @@ export class TaskComponent {
     private boardService: BoardService,
     public dialog: MatDialog
   ) {}
+
+  ngOnInit(): void {
+    this.isLoading = true;
+    this.boardService.getComments$(this.task._id).subscribe((data) => {
+      this.comments = data;
+      this.isLoading = false;
+    });
+  }
 
   openDeleteDialog(_id: string): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
@@ -36,9 +45,9 @@ export class TaskComponent {
 
   addComment(text: string) {
     const userId = this.userService.store$.value._id;
-    const comment = { text, userId };
-    this.boardService.addComment$(this.task._id, comment).subscribe(() => {
-      // this.task.comments.push(comment);
+    const comment = { text, userId, taskId: this.task._id };
+    this.boardService.addComment$(comment).subscribe(() => {
+      this.comments.push(comment);
     });
   }
 

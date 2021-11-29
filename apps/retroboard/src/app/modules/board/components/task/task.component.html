@@ -23,10 +23,10 @@
       [taskId]="task._id"
       (isLoading)="setLoading($event)"
     ></retro-board-like>
-    <button mat-button (click)="toggleCommentForm()">
-      <mat-icon aria-hidden="false" aria-label="Comment"> comment </mat-icon>
-      <span class="task__comments">{{ 0 }}</span>
-    </button>
+    <retro-board-comment-button
+      [commentsLength]="comments.length"
+      (toggleCommentForm)="toggleCommentForm()"
+    ></retro-board-comment-button>
   </mat-card-actions>
   <retro-board-comment-form
     *ngIf="showCommentForm"
@@ -35,6 +35,7 @@
   <retro-board-comments
     *ngIf="showCommentForm"
     [taskId]="task._id"
+    [comments]="comments"
   ></retro-board-comments>
   <mat-card-footer>
     <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>

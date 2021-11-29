@@ -8,7 +8,9 @@ import { ColumnService } from './services/column.service';
 import { TaskService } from './services/task.service';
 import { TaskController } from './controllers/task.controller';
 import { LikeService } from './services/like.service';
-import { LikeController } from './controllers/like.controller ';
+import { LikeController } from './controllers/like.controller';
+import { CommentController } from './controllers/comment.controller';
+import { CommentService } from './services/comment.service';
 
 @Module({
   imports: [DbModule],
@@ -18,6 +20,7 @@ import { LikeController } from './controllers/like.controller ';
     ColumnController,
     TaskController,
     LikeController,
+    CommentController,
   ],
   providers: [
     BoardService,
@@ -25,6 +28,7 @@ import { LikeController } from './controllers/like.controller ';
     ColumnService,
     TaskService,
     LikeService,
+    CommentService,
   ],
 })
 export class BoardModule {}

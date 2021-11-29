@@ -1,0 +1,11 @@
+<button class="btn__comment" mat-button (click)="toggleCommentForm.emit()">
+  <mat-icon
+    mat-button
+    class="comment-icon"
+    aria-hidden="false"
+    aria-label="Comment"
+  >
+    comment
+  </mat-icon>
+  <span class="comments-length">{{ commentsLength }}</span>
+</button>

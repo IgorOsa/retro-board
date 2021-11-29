@@ -19,9 +19,12 @@ mat-card-actions {
   margin-bottom: 0.5rem;
 }
 
-.task__comments,
-.task__votes {
-  padding-left: 0.5rem;
+.btn__comment {
+  margin: 0 !important;
+}
+
+.comment-icon {
+  margin-right: 0.5rem;
 }
 
 .cdk-drag-preview {

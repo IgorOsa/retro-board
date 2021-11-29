@@ -1,6 +1,7 @@
 import { Mongoose } from 'mongoose';
 import { BoardSchema } from '../schemas/board.schema';
 import { ColumnSchema } from '../schemas/column.schema';
+import { CommentSchema } from '../schemas/comment.schema';
 import { LikeSchema } from '../schemas/like.schema';
 import { TaskSchema } from '../schemas/task.schema';
 
@@ -23,6 +24,12 @@ export const boardProviders = [
   {
     provide: 'LIKE_MODEL',
     useFactory: (mongoose: Mongoose) => mongoose.model('Like', LikeSchema),
+    inject: ['DATABASE_CONNECTION'],
+  },
+  {
+    provide: 'COMMENT_MODEL',
+    useFactory: (mongoose: Mongoose) =>
+      mongoose.model('Comment', CommentSchema),
     inject: ['DATABASE_CONNECTION'],
   },
 ];

@@ -2,15 +2,12 @@ import { Inject, Injectable } from '@nestjs/common';
 import { IMessage } from '@retro-board/api-interfaces';
 import { Model } from 'mongoose';
 import { CustomBadRequestException } from '../../core/exceptions/badrequest.exception';
-import { Comment } from '../schemas/comments.schema';
-import { LikeDocument } from '../schemas/like.schema';
 import { Task, TaskCreateResponse, TaskDocument } from '../schemas/task.schema';
 
 @Injectable()
 export class TaskService {
   constructor(
-    @Inject('TASK_MODEL') private readonly taskModel: Model<TaskDocument>,
-    @Inject('LIKE_MODEL') private readonly likeModel: Model<LikeDocument>
+    @Inject('TASK_MODEL') private readonly taskModel: Model<TaskDocument>
   ) {}
 
   async create(task: Task): Promise<TaskCreateResponse> {
@@ -69,15 +66,6 @@ export class TaskService {
       if (!res) {
         throw new CustomBadRequestException(`No task found with id ${_id}`);
       }
-      return res;
-    } catch (err) {
-      throw new CustomBadRequestException(err.message);
-    }
-  }
-
-  async getLikes(taskId: string) {
-    try {
-      const res = await this.likeModel.find({ taskId });
       return res;
     } catch (err) {
       throw new CustomBadRequestException(err.message);

@@ -84,8 +84,13 @@ export class BoardService {
     return c$;
   }
 
-  addComment$(_id: string, payload: IComment) {
-    const c$ = this.http.post<IComment>(`/api/task/${_id}/comment`, payload);
+  getComments$(_id: string) {
+    const c$ = this.http.get<IComment[]>(`/api/task/${_id}/comments`);
+    return c$;
+  }
+
+  addComment$(payload: IComment) {
+    const c$ = this.http.post<IComment>(`/api/comment`, payload);
     return c$;
   }
 

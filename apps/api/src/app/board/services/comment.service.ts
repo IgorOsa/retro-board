@@ -1,35 +1,36 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { CustomBadRequestException } from '../../core/exceptions/badrequest.exception';
-import { Like, LikeDocument } from '../schemas/like.schema';
+import { Comment, CommentDocument } from '../schemas/comment.schema';
 
 @Injectable()
-export class LikeService {
+export class CommentService {
   constructor(
-    @Inject('LIKE_MODEL') private readonly likeModel: Model<LikeDocument>
+    @Inject('COMMENT_MODEL')
+    private readonly commentModel: Model<CommentDocument>
   ) {}
 
-  async create(payload: Like) {
+  async create(payload: Comment) {
     try {
-      const res = await this.likeModel.create(payload);
+      const res = await this.commentModel.create(payload);
       return res;
     } catch (err) {
       throw new CustomBadRequestException(err.message);
     }
   }
 
-  async remove(payload: Like) {
+  async get(taskId: string) {
     try {
-      const res = await this.likeModel.findOneAndRemove(payload);
+      const res = await this.commentModel.find({ taskId });
       return res;
     } catch (err) {
       throw new CustomBadRequestException(err.message);
     }
   }
 
-  async getAll(taskId: string) {
+  async remove(payload: Comment) {
     try {
-      const res = await this.likeModel.find({ taskId });
+      const res = await this.commentModel.findOneAndRemove(payload);
       return res;
     } catch (err) {
       throw new CustomBadRequestException(err.message);

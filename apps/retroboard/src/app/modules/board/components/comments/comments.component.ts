@@ -8,5 +8,5 @@ import { IComment } from '@retro-board/api-interfaces';
 })
 export class CommentsComponent {
   @Input() taskId!: string;
-  public comments: IComment[] = [];
+  @Input() public comments!: IComment[];
 }

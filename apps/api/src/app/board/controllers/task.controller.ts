@@ -21,7 +21,7 @@ import {
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { CustomBadRequestException } from '../../core/exceptions/badrequest.exception';
-import { Comment } from '../schemas/comments.schema';
+import { Comment } from '../schemas/comment.schema';
 import { Like } from '../schemas/like.schema';
 import {
   Task,
@@ -29,12 +29,18 @@ import {
   TaskCreateResponse,
   TaskUpdateRequest,
 } from '../schemas/task.schema';
+import { CommentService } from '../services/comment.service';
+import { LikeService } from '../services/like.service';
 import { TaskService } from '../services/task.service';
 
 @ApiTags('task')
 @Controller('task')
 export class TaskController {
-  constructor(private taskService: TaskService) {}
+  constructor(
+    private commentService: CommentService,
+    private likeService: LikeService,
+    private taskService: TaskService
+  ) {}
 
   @Post()
   @UseGuards(JwtAuthGuard)
@@ -136,11 +142,11 @@ export class TaskController {
   })
   @ApiBody({ description: 'TaskId', type: Like })
   async getLikes(@Param('id') taskId: string) {
-    const created = await this.taskService.getLikes(taskId);
+    const created = await this.likeService.getAll(taskId);
     return created;
   }
 
-  @Post(':id/comments')
+  @Get(':id/comments')
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Get comments for task by id' })
@@ -157,8 +163,7 @@ export class TaskController {
     description: 'Internal server error',
   })
   async addComment(@Param('id') taskId: string) {
-    // const comments = await this.taskService.get(taskId);
-    // return comments;
-    return [];
+    const comments = await this.commentService.get(taskId);
+    return comments;
   }
 }
