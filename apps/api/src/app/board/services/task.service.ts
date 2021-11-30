@@ -2,12 +2,17 @@ import { Inject, Injectable } from '@nestjs/common';
 import { IMessage } from '@retro-board/api-interfaces';
 import { Model } from 'mongoose';
 import { CustomBadRequestException } from '../../core/exceptions/badrequest.exception';
+import { CommentDocument } from '../schemas/comment.schema';
+import { LikeDocument } from '../schemas/like.schema';
 import { Task, TaskCreateResponse, TaskDocument } from '../schemas/task.schema';
 
 @Injectable()
 export class TaskService {
   constructor(
-    @Inject('TASK_MODEL') private readonly taskModel: Model<TaskDocument>
+    @Inject('TASK_MODEL') private readonly taskModel: Model<TaskDocument>,
+    @Inject('LIKE_MODEL') private readonly likeModel: Model<LikeDocument>,
+    @Inject('COMMENT_MODEL')
+    private readonly commentModel: Model<CommentDocument>
   ) {}
 
   async create(task: Task): Promise<TaskCreateResponse> {
@@ -62,6 +67,8 @@ export class TaskService {
 
   async remove(_id: string) {
     try {
+      await this.likeModel.deleteMany({ taskId: _id });
+      await this.commentModel.deleteMany({ taskId: _id });
       const res = await this.taskModel.findOneAndDelete({ _id });
       if (!res) {
         throw new CustomBadRequestException(`No task found with id ${_id}`);
