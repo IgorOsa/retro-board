@@ -11,6 +11,7 @@ import {
 } from '@angular/cdk/drag-drop';
 import { SnackbarService } from '../../../../shared/services';
 import { forkJoin } from 'rxjs';
+import { UserService } from '../../../user/services/user.service';
 
 @Component({
   selector: 'retro-board-board',
@@ -24,10 +25,12 @@ export class BoardComponent implements OnInit {
   constructor(
     private boardService: BoardService,
     public dialog: MatDialog,
-    private snackbarService: SnackbarService
+    private snackbarService: SnackbarService,
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {
+    this.userService.setCurrentUser();
     this.boardService
       .getFullBoard$()
       .pipe(delay(500))

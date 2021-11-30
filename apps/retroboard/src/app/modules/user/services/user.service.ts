@@ -19,6 +19,12 @@ export class UserService {
     return this.http.get<IUserResponse>(`/api/user`);
   }
 
+  setCurrentUser() {
+    this.getUserData$().subscribe((data) => {
+      this.store$.next(data);
+    });
+  }
+
   getUserById$(userId: string) {
     return this.http.get<IUserResponse>(`/api/user/${userId}`);
   }
