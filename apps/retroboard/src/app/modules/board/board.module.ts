@@ -13,6 +13,7 @@ import { CommentsComponent } from './components/comments/comments.component';
 import { LikeComponent } from './components/like/like.component';
 import { CommentButtonComponent } from './components/comment-button/comment-button.component';
 import { CommentItemComponent } from './components/comment-item/comment-item.component';
+import { MenuComponent } from './components/menu/menu.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { CommentItemComponent } from './components/comment-item/comment-item.com
     LikeComponent,
     CommentButtonComponent,
     CommentItemComponent,
+    MenuComponent,
   ],
   imports: [CommonModule, BoardRoutingModule, SharedModule],
   exports: [BoardComponent],

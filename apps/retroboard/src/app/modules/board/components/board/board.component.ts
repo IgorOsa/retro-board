@@ -112,4 +112,14 @@ export class BoardComponent implements OnInit {
       );
     }
   }
+
+  removeColumn(_id: string) {
+    this.boardService.removeColumn$(_id).subscribe((data) => {
+      if (data) {
+        const rest = this.board.columns.filter((item) => item._id !== _id);
+        this.board.columns = [...rest];
+        this.snackbarService.open('Column deleted');
+      }
+    });
+  }
 }

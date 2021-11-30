@@ -65,6 +65,11 @@ export class BoardService {
     return c$;
   }
 
+  removeColumn$(_id: string) {
+    const c$ = this.http.delete<IColumn>(`/api/column/${_id}`);
+    return c$;
+  }
+
   getTasks$(columnId: string): Observable<ITask[]> {
     return this.http.get<ITask[]>(`/api/column/${columnId}/tasks`);
   }

@@ -5,22 +5,11 @@
   <mat-card-title>
     {{ task.title }}
   </mat-card-title>
-  <div style="position: absolute; top: 0; right: 0">
-    <button
-      mat-icon-button
-      [matMenuTriggerFor]="menu"
-      aria-label="Task menu icon-button"
-      #menuTrigger
-    >
-      <mat-icon>more_vert</mat-icon>
-    </button>
-    <mat-menu #menu="matMenu">
-      <button mat-menu-item (click)="openDeleteDialog(task._id)">
-        <mat-icon>delete</mat-icon>
-        <span>Delete</span>
-      </button>
-    </mat-menu>
-  </div>
+  <retro-board-menu
+    [entityId]="task._id"
+    (openDeleteDialog)="openDeleteDialog($event)"
+  >
+  </retro-board-menu>
   <mat-card-actions>
     <retro-board-like
       [taskId]="task._id"

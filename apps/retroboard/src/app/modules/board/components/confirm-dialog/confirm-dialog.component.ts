@@ -11,10 +11,8 @@ export class ConfirmDialogComponent {
 
   constructor(
     public dialogRef: MatDialogRef<unknown>,
-    @Inject(MAT_DIALOG_DATA) public data: string
+    @Inject(MAT_DIALOG_DATA) public question: string
   ) {}
-
-  question = 'Remove task?';
 
   onNoClick(): void {
     this.dialogRef.close();

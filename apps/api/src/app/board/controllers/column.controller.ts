@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiBearerAuth,
@@ -93,6 +101,23 @@ export class ColumnController {
   async get(@Param('id') id: string) {
     const column = await this.columnService.get(id);
     return column;
+  }
+
+  @Delete(':id')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Remove column by id' })
+  @ApiOkResponse({ description: 'Column removed successfully' })
+  @ApiBadRequestResponse({
+    description: 'Bad request',
+    type: CustomBadRequestException,
+  })
+  @ApiForbiddenResponse({ description: 'Forbidden' })
+  @ApiInternalServerErrorResponse({
+    description: 'Internal server error',
+  })
+  async remove(@Param('id') id: string) {
+    return await this.columnService.remove(id);
   }
 
   @Get(':columnId/tasks')

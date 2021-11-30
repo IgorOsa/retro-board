@@ -6,6 +6,7 @@ import { IColumn } from '@retro-board/api-interfaces';
 import { BoardService } from '../../services/board.service';
 import { DialogComponent } from '../dialog/dialog.component';
 import { SnackbarService } from '../../../../shared/services';
+import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'retro-board-column',
@@ -16,6 +17,7 @@ export class ColumnComponent {
   @Input() column!: IColumn;
   @Output() public dropped = new EventEmitter();
   @Output() public openedDialog = new EventEmitter();
+  @Output() public removeColumnEvent = new EventEmitter();
 
   constructor(
     private boardService: BoardService,
@@ -37,6 +39,19 @@ export class ColumnComponent {
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.addTask(result);
+      }
+    });
+  }
+
+  openDeleteDialog(_id: string): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      restoreFocus: false,
+      data: 'Remove column?',
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.removeColumnEvent.emit(_id);
       }
     });
   }

@@ -19,7 +19,9 @@
         [column]="column"
         (openedDialog)="openDialog('Create Task')"
         (dropped)="drop($event)"
-      ></retro-board-column>
+        (removeColumnEvent)="removeColumn($event)"
+      >
+      </retro-board-column>
     </div>
   </div>
 </div>

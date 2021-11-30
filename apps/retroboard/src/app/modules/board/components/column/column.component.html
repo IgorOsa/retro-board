@@ -1,4 +1,9 @@
 <h2>{{ column.title }}</h2>
+<retro-board-menu
+  [entityId]="column._id"
+  (openDeleteDialog)="openDeleteDialog($event)"
+>
+</retro-board-menu>
 <button
   mat-raised-button
   class="btn__add-task"

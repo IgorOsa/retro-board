@@ -34,6 +34,7 @@ export class TaskComponent implements OnInit {
   openDeleteDialog(_id: string): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       restoreFocus: false,
+      data: 'Remove task?',
     });
 
     dialogRef.afterClosed().subscribe((result) => {
