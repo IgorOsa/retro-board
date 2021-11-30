@@ -28,9 +28,9 @@ export class CommentService {
     }
   }
 
-  async remove(payload: Comment) {
+  async remove(_id: string) {
     try {
-      const res = await this.commentModel.findOneAndRemove(payload);
+      const res = await this.commentModel.findOneAndRemove({ _id });
       return res;
     } catch (err) {
       throw new CustomBadRequestException(err.message);

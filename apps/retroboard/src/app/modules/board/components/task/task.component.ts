@@ -14,6 +14,7 @@ export class TaskComponent implements OnInit {
   public isLoading = false;
   public showCommentForm = false;
   public comments: IComment[] = [];
+
   @Input() task!: ITask;
   @Output() removeTaskEvent = new EventEmitter();
 
@@ -47,9 +48,13 @@ export class TaskComponent implements OnInit {
   addComment(text: string) {
     const userId = this.userService.store$.value._id;
     const comment = { text, userId, taskId: this.task._id };
-    this.boardService.addComment$(comment).subscribe(() => {
-      this.comments.push(comment);
+    this.boardService.addComment$(comment).subscribe((c) => {
+      this.comments.push(c);
     });
+  }
+
+  commentsChange(event: IComment[]) {
+    this.comments = event;
   }
 
   toggleCommentForm() {

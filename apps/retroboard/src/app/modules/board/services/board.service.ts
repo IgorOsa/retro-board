@@ -94,8 +94,13 @@ export class BoardService {
     return c$;
   }
 
-  addComment$(payload: IComment) {
+  addComment$(payload: Omit<IComment, '_id'>) {
     const c$ = this.http.post<IComment>(`/api/comment`, payload);
+    return c$;
+  }
+
+  removeComment$(_id: string) {
+    const c$ = this.http.delete<IComment>(`/api/comment/${_id}`);
     return c$;
   }
 

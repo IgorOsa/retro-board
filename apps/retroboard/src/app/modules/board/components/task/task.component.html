@@ -28,6 +28,7 @@
     *ngIf="showCommentForm"
     [taskId]="task._id"
     [comments]="comments"
+    (commentsChange)="commentsChange($event)"
   ></retro-board-comments>
   <mat-card-footer>
     <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>

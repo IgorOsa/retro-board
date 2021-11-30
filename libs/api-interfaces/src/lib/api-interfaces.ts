@@ -31,7 +31,7 @@ export interface ILike {
 }
 
 export interface IComment {
-  _id?: string;
+  _id: string;
   userId: string;
   taskId: string;
   text: string;

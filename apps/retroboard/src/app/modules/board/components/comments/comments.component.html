@@ -1,3 +1,6 @@
 <div *ngFor="let comment of comments">
-  <retro-board-comment-item [comment]="comment"></retro-board-comment-item>
+  <retro-board-comment-item
+    [comment]="comment"
+    (removeCommentEvent)="removeComment($event)"
+  ></retro-board-comment-item>
 </div>

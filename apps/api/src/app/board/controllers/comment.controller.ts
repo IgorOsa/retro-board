@@ -1,4 +1,11 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Param,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiBearerAuth,
@@ -42,13 +49,11 @@ export class CommentController {
     return created;
   }
 
-  @Post('remove')
+  @Delete(':id')
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
-  @ApiOperation({ summary: 'Remove comment' })
-  @ApiOkResponse({
-    description: 'Comment successfully removed.',
-  })
+  @ApiOperation({ summary: 'Remove comment by id.' })
+  @ApiOkResponse({ description: 'Comment removed successfully.' })
   @ApiBadRequestResponse({
     description: 'Bad request.',
     type: CustomBadRequestException,
@@ -57,8 +62,7 @@ export class CommentController {
   @ApiInternalServerErrorResponse({
     description: 'Internal server error',
   })
-  @ApiBody({ description: 'Remove comment', type: Comment })
-  async remove(@Body() comment: Comment) {
-    return await this.commentService.remove(comment);
+  async remove(@Param('id') id: string) {
+    return await this.commentService.remove(id);
   }
 }
