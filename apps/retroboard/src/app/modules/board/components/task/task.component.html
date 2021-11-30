@@ -5,6 +5,9 @@
   <mat-card-title>
     {{ task.title }}
   </mat-card-title>
+  <mat-card-subtitle>
+    {{ userName || task.userId }}
+  </mat-card-subtitle>
   <retro-board-menu
     [entityId]="task._id"
     (openDeleteDialog)="openDeleteDialog($event)"

@@ -19,6 +19,7 @@ export interface IColumn {
 
 export interface ITask {
   _id: string;
+  userId: string;
   columnId: string;
   title: string;
   order: number;

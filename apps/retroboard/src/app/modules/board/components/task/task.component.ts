@@ -14,6 +14,7 @@ export class TaskComponent implements OnInit {
   public isLoading = false;
   public showCommentForm = false;
   public comments: IComment[] = [];
+  public userName!: string;
 
   @Input() task!: ITask;
   @Output() removeTaskEvent = new EventEmitter();
@@ -30,6 +31,14 @@ export class TaskComponent implements OnInit {
       this.comments = data;
       this.isLoading = false;
     });
+
+    if (this.task.userId) {
+      this.isLoading = true;
+      this.userService.getUserById$(this.task.userId).subscribe((u) => {
+        this.userName = `${u.firstName} ${u.lastName}`;
+        this.isLoading = false;
+      });
+    }
   }
 
   openDeleteDialog(_id: string): void {

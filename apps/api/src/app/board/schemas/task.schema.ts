@@ -23,6 +23,10 @@ export class Task implements ITask {
   @ApiProperty({ example: 1 })
   @Prop({ required: true })
   order: number;
+
+  @ApiProperty({ example: '619671f9f302700e286b94df' })
+  @Prop()
+  userId: string;
 }
 
 export const TaskSchema = SchemaFactory.createForClass(Task);

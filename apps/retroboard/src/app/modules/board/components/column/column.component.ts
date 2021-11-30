@@ -7,6 +7,7 @@ import { BoardService } from '../../services/board.service';
 import { DialogComponent } from '../dialog/dialog.component';
 import { SnackbarService } from '../../../../shared/services';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
+import { UserService } from '../../../user/services/user.service';
 
 @Component({
   selector: 'retro-board-column',
@@ -22,7 +23,8 @@ export class ColumnComponent {
   constructor(
     private boardService: BoardService,
     public dialog: MatDialog,
-    private snackbarService: SnackbarService
+    private snackbarService: SnackbarService,
+    private userService: UserService
   ) {}
 
   drop(event: CdkDragDrop<IColumn>): void {
@@ -58,12 +60,14 @@ export class ColumnComponent {
 
   addTask(title: string) {
     const nextOrder = this.column.tasks.length;
+    const userId = this.userService.store$.value._id;
 
     this.boardService
       .addTask$({
         columnId: this.column._id,
         title,
         order: nextOrder,
+        userId,
       })
       .subscribe({
         next: (el) => {
@@ -72,6 +76,7 @@ export class ColumnComponent {
             title,
             columnId: this.column._id,
             order: nextOrder,
+            userId,
           });
         },
         error: undefined,
