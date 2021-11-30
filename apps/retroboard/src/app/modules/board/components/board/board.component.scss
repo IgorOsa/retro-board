@@ -9,12 +9,13 @@ retro-board-column {
 
 .board__wrapper {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   flex: 1;
   flex-wrap: wrap;
 }
 
 .board__container {
+  max-width: 22%;
   min-width: 212px;
   margin: 0 1rem 1rem;
   display: inline-block;
@@ -24,12 +25,14 @@ retro-board-column {
 
 @media screen and (max-width: 1199px) {
   .board__container {
+    max-width: 47%;
     flex: 1 1 33%;
   }
 }
 
 @media screen and (max-width: 599px) {
   .board__container {
+    max-width: none;
     flex: 1 1 50%;
   }
 }
