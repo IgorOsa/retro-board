@@ -1,21 +1,27 @@
 # RetroBoard
 
-A simple retrospective tool. Demo link (will be provided after the MVP deployment).
+A simple retrospective tool. Demo link (will be provided after the MVP deployment). To run project locally see instructions below.
 
 ## Main features
 
-- [ ] Create Colums
-- [ ] Create Tasks
-- [ ] Drag'n'Drop Tasks
-- [ ] Leave Comments to Tasks
-- [ ] Likes for Tasts
-- [ ] Save Board State (through backend API calls)
+- [x] Create Colums
+- [x] Create Tasks
+- [x] Drag'n'Drop Tasks
+- [x] Leave Comments to Tasks
+- [x] Likes for Tasks
+- [x] Save Board State (through backend API calls)
 - [ ] Export Board state to file
 
 ## Dev Stack
 
 - Angular with Material UI for frontend part
-- Nest JS for backend
+- Nest JS for backend with Swagger UI for API docs
+
+## Run project locally
+- Git clone this repo.
+- Create `.env` file in `apps/api` according to `.env.example` file with your MongoDB connection string and security credentials.
+- Run `npm install` command to install dependencies.
+- Run `npm run dev` to start both backend API and frontend dev servers.
 
 ## Tools
 
