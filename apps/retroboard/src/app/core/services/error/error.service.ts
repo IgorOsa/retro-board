@@ -20,7 +20,7 @@ export class ErrorService {
       `${err.error.statusCode} ${err.error.message}`.trim() || 'Unknown Error';
 
     if (err.status === 401) {
-      msg = 'Auth session expired. Please, login again';
+      msg = 'Wrong auth data or session expired.';
       this.authService.logout();
       this.router.navigateByUrl('/login');
     }
