@@ -4,6 +4,7 @@ import {
   Delete,
   Param,
   Post,
+  Put,
   UseGuards,
 } from '@nestjs/common';
 import {
@@ -44,9 +45,29 @@ export class CommentController {
     description: 'Internal server error',
   })
   @ApiBody({ description: 'Add comment', type: Comment })
-  async addLike(@Body() comment: Comment) {
-    const created = await this.commentService.create(comment);
-    return created;
+  async create(@Body() comment: Comment) {
+    return await this.commentService.create(comment);
+  }
+
+  @Put(':id')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Update comment' })
+  @ApiOkResponse({
+    description: 'Comment successfully updated.',
+    type: Comment,
+  })
+  @ApiBadRequestResponse({
+    description: 'Bad request.',
+    type: CustomBadRequestException,
+  })
+  @ApiForbiddenResponse({ description: 'Forbidden.' })
+  @ApiInternalServerErrorResponse({
+    description: 'Internal server error',
+  })
+  @ApiBody({ description: 'Update comment', type: Comment })
+  async update(@Param('id') id: string, @Body() payload: Partial<Comment>) {
+    return await this.commentService.update(id, payload);
   }
 
   @Delete(':id')

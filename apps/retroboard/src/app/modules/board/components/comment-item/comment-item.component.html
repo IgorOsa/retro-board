@@ -1,6 +1,9 @@
 <mat-card>
   <retro-board-menu
     [entityId]="comment._id"
+    (openEditDialog)="
+      openDialog('Update comment', undefined, comment.text, comment._id)
+    "
     (openDeleteDialog)="openDeleteDialog($event)"
   >
   </retro-board-menu>

@@ -126,6 +126,11 @@ export class BoardService {
     return c$;
   }
 
+  updateComment$(_id: string, payload: Partial<IComment>) {
+    const c$ = this.http.put<IComment>(`/api/comment/${_id}`, payload);
+    return c$;
+  }
+
   removeComment$(_id: string) {
     const c$ = this.http.delete<IComment>(`/api/comment/${_id}`);
     return c$;
