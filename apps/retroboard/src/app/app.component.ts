@@ -1,6 +1,4 @@
 import { Component } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Message } from '@retro-board/api-interfaces';
 
 @Component({
   selector: 'retro-board-root',
@@ -8,6 +6,5 @@ import { Message } from '@retro-board/api-interfaces';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  hello$ = this.http.get<Message>('/api/hello');
-  constructor(private http: HttpClient) {}
+  public appTitle = 'RetroBoard';
 }

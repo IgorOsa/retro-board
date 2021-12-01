@@ -1,0 +1,36 @@
+<form [formGroup]="loginForm" (submit)="login()">
+  <mat-card>
+    <mat-card-title> Login </mat-card-title>
+    <mat-card-content>
+      <mat-form-field>
+        <mat-label>Email</mat-label>
+        <input
+          matInput
+          formControlName="email"
+          type="email"
+          placeholder="john@example.com"
+        />
+        <mat-error>
+          {{ loginForm.controls['email']?.errors | validator: 'Email' }}
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Password</mat-label>
+        <input
+          matInput
+          formControlName="password"
+          type="password"
+          placeholder="password"
+        />
+        <mat-error>
+          {{ loginForm.controls['password']?.errors | validator: 'Password' }}
+        </mat-error>
+      </mat-form-field>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" [disabled]="!loginForm.valid">
+        Login
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</form>

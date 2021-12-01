@@ -1,0 +1,49 @@
+.column__box {
+  margin: 0.5rem 0;
+  border: solid 1px #ccc;
+  color: rgba(0, 0, 0, 0.87);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+  background: white;
+}
+
+.drag-handle {
+  position: absolute;
+  top: 0.6rem;
+  left: 0.6rem;
+  color: rgba(0, 0, 0, 0.87);
+  cursor: move;
+  width: 24px;
+  height: 24px;
+}
+
+mat-card-title {
+  font-size: 1rem;
+  padding-left: 1.5rem;
+}
+
+mat-card-actions {
+  align-self: flex-end;
+  margin-bottom: 0.5rem;
+}
+
+.cdk-drag-preview {
+  box-sizing: border-box;
+  border-radius: 4px;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+    0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+.cdk-drag-placeholder {
+  opacity: 0;
+}
+
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.column__list.cdk-drop-list-dragging .column__box:not(.cdk-drag-placeholder) {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}

@@ -1,0 +1,30 @@
+<ng-template #loading>
+  <retro-board-loader></retro-board-loader>
+</ng-template>
+<div class="board" *ngIf="!isLoading; else loading">
+  <button
+    mat-raised-button
+    class="btn__add-column"
+    color="primary"
+    (click)="openDialog('Create Column')"
+    matTooltip="Add Column"
+  >
+    <mat-icon aria-hidden="false" aria-label="Add Column" title="Add Column">
+      add
+    </mat-icon>
+  </button>
+  <div cdkDropListGroup class="board__wrapper">
+    <div class="board__container" *ngFor="let column of board.columns">
+      <retro-board-column
+        [column]="column"
+        (openedDialog)="openDialog('Create Task')"
+        (openEditDialog)="
+          openDialog('Update Column', 'Update', column.title, $event)
+        "
+        (dropped)="drop($event)"
+        (removeColumnEvent)="removeColumn($event)"
+      >
+      </retro-board-column>
+    </div>
+  </div>
+</div>

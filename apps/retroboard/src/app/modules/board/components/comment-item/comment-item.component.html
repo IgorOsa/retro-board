@@ -1,0 +1,12 @@
+<mat-card>
+  <retro-board-menu
+    [entityId]="comment._id"
+    (openEditDialog)="
+      openDialog('Update comment', undefined, comment.text, comment._id)
+    "
+    (openDeleteDialog)="openDeleteDialog($event)"
+  >
+  </retro-board-menu>
+  <mat-card-title>{{ comment.text }}</mat-card-title>
+  <mat-card-subtitle>{{ userName || comment.userId }}</mat-card-subtitle>
+</mat-card>

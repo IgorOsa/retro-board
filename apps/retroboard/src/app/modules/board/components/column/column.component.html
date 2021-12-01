@@ -1,0 +1,32 @@
+<h2>{{ column.title }}</h2>
+<retro-board-menu
+  [entityId]="column._id"
+  (openEditDialog)="openEditDialog.emit($event)"
+  (openDeleteDialog)="openDeleteDialog($event)"
+>
+</retro-board-menu>
+<button
+  mat-raised-button
+  class="btn__add-task"
+  color="primary"
+  matTooltip="Add Task"
+  (click)="openDialog('Create task')"
+>
+  <mat-icon aria-hidden="false" aria-label="Add Task" title="Add Task">
+    add
+  </mat-icon>
+</button>
+<div
+  cdkDropList
+  [cdkDropListData]="column"
+  class="column__list"
+  (cdkDropListDropped)="drop($event)"
+>
+  <retro-board-task
+    *ngFor="let task of column.tasks"
+    [task]="task"
+    (openEditDialog)="openDialog('Update Task', 'Update', task.title, $event)"
+    (removeTaskEvent)="removeTaskEvent($event)"
+  >
+  </retro-board-task>
+</div>

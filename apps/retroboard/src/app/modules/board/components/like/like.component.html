@@ -1,0 +1,7 @@
+<button mat-button (click)="like()">
+  <mat-icon aria-hidden="false" aria-label="Like"> thumb_up </mat-icon>
+</button>
+<span class="task__votes">{{ likes.length }}</span>
+<button mat-button (click)="dislike()" disabled="{{ !likes.length }}">
+  <mat-icon aria-hidden="false" aria-label="Remove Like"> thumb_down </mat-icon>
+</button>

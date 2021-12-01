@@ -1,9 +1,5 @@
-<div style="text-align: center">
-  <h1>Welcome to retroboard!</h1>
-  <img
-    width="450"
-    src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png"
-    alt="Nx - Smart, Extensible Build Framework"
-  />
-</div>
-<div>Message: {{ hello$ | async | json }}</div>
+<retro-board-header [title]="appTitle"></retro-board-header>
+<main class="main">
+  <router-outlet></router-outlet>
+</main>
+<retro-board-footer [title]="appTitle"></retro-board-footer>

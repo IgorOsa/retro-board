@@ -1,0 +1,40 @@
+<mat-card [cdkDragData]="task" class="column__box" cdkDrag>
+  <span class="drag-handle" cdkDragHandle>
+    <mat-icon>drag_indicator</mat-icon>
+  </span>
+  <mat-card-title>
+    {{ task.title }}
+  </mat-card-title>
+  <mat-card-subtitle>
+    {{ userName || task.userId }}
+  </mat-card-subtitle>
+  <retro-board-menu
+    [entityId]="task._id"
+    (openEditDialog)="openEditDialog.emit($event)"
+    (openDeleteDialog)="openDeleteDialog($event)"
+  >
+  </retro-board-menu>
+  <mat-card-actions>
+    <retro-board-like
+      [taskId]="task._id"
+      (isLoading)="setLoading($event)"
+    ></retro-board-like>
+    <retro-board-comment-button
+      [commentsLength]="comments.length"
+      (toggleCommentForm)="toggleCommentForm()"
+    ></retro-board-comment-button>
+  </mat-card-actions>
+  <retro-board-comment-form
+    *ngIf="showCommentForm"
+    (submitCommentEvent)="addComment($event)"
+  ></retro-board-comment-form>
+  <retro-board-comments
+    *ngIf="showCommentForm"
+    [taskId]="task._id"
+    [comments]="comments"
+    (commentsChange)="commentsChange($event)"
+  ></retro-board-comments>
+  <mat-card-footer>
+    <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
+  </mat-card-footer>
+</mat-card>
