@@ -65,6 +65,19 @@ export class BoardService {
     return c$;
   }
 
+  updateColumn(_id: string, payload: Omit<IColumn, '_id' | 'tasks'>) {
+    this.http
+      .put<IColumn>(`/api/column/${_id}`, payload)
+      .subscribe((updated) => {
+        const board = Object.assign({}, this.store$.value);
+        const up = board.columns.find((c) => c._id === _id);
+        if (up) {
+          up.title = updated.title;
+          this.store$.next(board);
+        }
+      });
+  }
+
   removeColumn$(_id: string) {
     const c$ = this.http.delete<IColumn>(`/api/column/${_id}`);
     return c$;

@@ -18,6 +18,7 @@ export class ColumnComponent {
   @Input() column!: IColumn;
   @Output() public dropped = new EventEmitter();
   @Output() public openedDialog = new EventEmitter();
+  @Output() public openEditDialog = new EventEmitter();
   @Output() public removeColumnEvent = new EventEmitter();
 
   constructor(

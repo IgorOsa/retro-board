@@ -1,4 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
+import { IColumn } from '@retro-board/api-interfaces';
 import { Model } from 'mongoose';
 import { CustomBadRequestException } from '../../core/exceptions/badrequest.exception';
 import {
@@ -47,6 +48,20 @@ export class ColumnService {
       const res = await this.columnModel.findOne({ _id });
       if (!res) {
         throw new CustomBadRequestException(`No columns with id ${_id} found`);
+      }
+      return res;
+    } catch (err) {
+      throw new CustomBadRequestException(err.message);
+    }
+  }
+
+  async update(_id: string, payload: IColumn) {
+    try {
+      const res = await this.columnModel.findOneAndUpdate({ _id }, payload, {
+        new: true,
+      });
+      if (!res) {
+        throw new CustomBadRequestException(`No column with id ${_id} found`);
       }
       return res;
     } catch (err) {

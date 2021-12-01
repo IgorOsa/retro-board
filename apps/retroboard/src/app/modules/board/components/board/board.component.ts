@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { IBoard, IColumn } from '@retro-board/api-interfaces';
 import { BoardService } from '../../services/board.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -40,16 +40,31 @@ export class BoardComponent implements OnInit {
       });
   }
 
-  openDialog(dialogTitle: string): void {
+  openDialog(
+    dialogTitle: string,
+    dialogAction = 'Create',
+    entityTitle = '',
+    entityId = ''
+  ): void {
     const dialogRef = this.dialog.open(DialogComponent, {
       autoFocus: false,
       width: '250px',
-      data: { dialogTitle },
+      data: { dialogTitle, dialogAction, entityTitle },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.addColumn(result);
+        switch (dialogAction) {
+          case 'Create':
+            this.addColumn(result);
+            break;
+          case 'Update':
+            console.log('Update', result);
+            this.editColumn(entityId, result);
+            break;
+          default:
+            break;
+        }
       }
     });
   }
@@ -69,6 +84,14 @@ export class BoardComponent implements OnInit {
         });
         this.snackbarService.open('Column created');
       });
+  }
+
+  editColumn(_id: string, title: string) {
+    console.log('Update', _id, title);
+    this.boardService.updateColumn(_id, {
+      title,
+      boardId: this.board._id,
+    });
   }
 
   drop(event: CdkDragDrop<IColumn>): void {
