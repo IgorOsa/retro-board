@@ -1,6 +1,6 @@
 # RetroBoard
 
-A simple retrospective tool. Demo link (will be provided after the MVP deployment). To run project locally see instructions below.
+A simple retrospective tool. Demo link [retroboard.ml](https://retroboard.ml/). To run project locally see instructions below.
 
 ## Main features
 
