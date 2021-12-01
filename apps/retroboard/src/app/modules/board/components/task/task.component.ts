@@ -17,6 +17,7 @@ export class TaskComponent implements OnInit {
   public userName!: string;
 
   @Input() task!: ITask;
+  @Output() public openEditDialog = new EventEmitter();
   @Output() removeTaskEvent = new EventEmitter();
 
   constructor(

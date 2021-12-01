@@ -32,16 +32,30 @@ export class ColumnComponent {
     this.dropped.emit(event);
   }
 
-  openDialog(dialogTitle: string): void {
+  openDialog(
+    dialogTitle: string,
+    dialogAction = 'Create',
+    entityTitle = '',
+    entityId = ''
+  ): void {
     const dialogRef = this.dialog.open(DialogComponent, {
       autoFocus: false,
       width: '250px',
-      data: { dialogTitle },
+      data: { dialogTitle, dialogAction, entityTitle },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.addTask(result);
+        switch (dialogAction) {
+          case 'Create':
+            this.addTask(result);
+            break;
+          case 'Update':
+            this.editTask(entityId, result);
+            break;
+          default:
+            break;
+        }
       }
     });
   }
@@ -83,6 +97,12 @@ export class ColumnComponent {
         error: undefined,
         complete: () => this.snackbarService.open('Task created'),
       });
+  }
+
+  editTask(_id: string, title: string) {
+    this.boardService.updateTask(_id, {
+      title,
+    });
   }
 
   removeTaskEvent(_id: string) {

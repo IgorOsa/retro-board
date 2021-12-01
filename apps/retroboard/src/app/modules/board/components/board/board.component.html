@@ -19,7 +19,7 @@
         [column]="column"
         (openedDialog)="openDialog('Create Task')"
         (openEditDialog)="
-          openDialog('Update Task', 'Update', column.title, $event)
+          openDialog('Update Column', 'Update', column.title, $event)
         "
         (dropped)="drop($event)"
         (removeColumnEvent)="removeColumn($event)"

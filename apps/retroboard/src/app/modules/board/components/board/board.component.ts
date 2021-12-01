@@ -59,10 +59,7 @@ export class BoardComponent implements OnInit {
             this.addColumn(result);
             break;
           case 'Update':
-            console.log('Update', result);
             this.editColumn(entityId, result);
-            break;
-          default:
             break;
         }
       }
@@ -87,7 +84,6 @@ export class BoardComponent implements OnInit {
   }
 
   editColumn(_id: string, title: string) {
-    console.log('Update', _id, title);
     this.boardService.updateColumn(_id, {
       title,
       boardId: this.board._id,

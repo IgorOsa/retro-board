@@ -92,9 +92,23 @@ export class BoardService {
     return c$;
   }
 
-  updateTask$(_id: string, payload: ITask) {
+  updateTask$(_id: string, payload: Partial<ITask>) {
     const c$ = this.http.put<ITask>(`/api/task/${_id}`, payload);
     return c$;
+  }
+
+  updateTask(_id: string, payload: Partial<ITask>) {
+    this.updateTask$(_id, payload).subscribe((updated) => {
+      const board = Object.assign({}, this.store$.value);
+      const col = board.columns.find((c) => c._id === updated.columnId);
+      if (col) {
+        const task = col.tasks.find((t) => t._id === _id);
+        if (task?.title && payload?.title) {
+          task.title = payload.title;
+          this.store$.next(board);
+        }
+      }
+    });
   }
 
   removeTask$(_id: string) {
