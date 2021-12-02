@@ -10,7 +10,7 @@ A simple retrospective tool. Demo link (will be provided after the MVP deploymen
 - [x] Leave Comments to Tasks
 - [x] Likes for Tasks
 - [x] Save Board State (through backend API calls)
-- [ ] Export Board state to file
+- [x] Export Board state to file (columns & tasks)
 
 ## Dev Stack
 
