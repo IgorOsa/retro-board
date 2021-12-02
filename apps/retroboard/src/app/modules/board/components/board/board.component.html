@@ -2,6 +2,7 @@
   <retro-board-loader></retro-board-loader>
 </ng-template>
 <div class="board" *ngIf="!isLoading; else loading">
+  <retro-board-export></retro-board-export>
   <button
     mat-raised-button
     class="btn__add-column"
@@ -13,6 +14,7 @@
       add
     </mat-icon>
   </button>
+
   <div cdkDropListGroup class="board__wrapper">
     <div class="board__container" *ngFor="let column of board.columns">
       <retro-board-column
