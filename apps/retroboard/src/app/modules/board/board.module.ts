@@ -14,6 +14,7 @@ import { LikeComponent } from './components/like/like.component';
 import { CommentButtonComponent } from './components/comment-button/comment-button.component';
 import { CommentItemComponent } from './components/comment-item/comment-item.component';
 import { MenuComponent } from './components/menu/menu.component';
+import { ExportComponent } from './components/export/export.component';
 
 @NgModule({
   declarations: [
@@ -28,8 +29,9 @@ import { MenuComponent } from './components/menu/menu.component';
     CommentButtonComponent,
     CommentItemComponent,
     MenuComponent,
+    ExportComponent,
   ],
   imports: [CommonModule, BoardRoutingModule, SharedModule],
-  exports: [BoardComponent],
+  exports: [BoardComponent, ExportComponent],
 })
 export class BoardModule {}
