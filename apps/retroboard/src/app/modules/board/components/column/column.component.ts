@@ -85,24 +85,16 @@ export class ColumnComponent {
         userId,
       })
       .subscribe({
-        next: (el) => {
-          this.column.tasks.push({
-            _id: el._id,
-            title,
-            columnId: this.column._id,
-            order: nextOrder,
-            userId,
-          });
-        },
-        error: undefined,
         complete: () => this.snackbarService.open('Task created'),
       });
   }
 
   editTask(_id: string, title: string) {
-    this.boardService.updateTask(_id, {
-      title,
-    });
+    this.boardService
+      .updateTask$(_id, {
+        title,
+      })
+      .subscribe({ complete: () => this.snackbarService.open('Task updated') });
   }
 
   removeTaskEvent(_id: string) {
@@ -110,12 +102,10 @@ export class ColumnComponent {
   }
 
   removeTask(_id: string) {
-    this.boardService.removeTask$(_id).subscribe((data) => {
-      if (data) {
-        const rest = this.column.tasks.filter((item) => item._id !== _id);
-        this.column.tasks = [...rest];
+    this.boardService.removeTask$(_id).subscribe({
+      complete: () => {
         this.snackbarService.open('Task deleted');
-      }
+      },
     });
   }
 }

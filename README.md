@@ -24,9 +24,9 @@ A simple retrospective tool. Demo link [retroboard.ml](https://retroboard.ml/). 
 - Run `npm install` command to install dependencies.
 - Run `npm run dev` to start both backend API and frontend dev servers.
 
-Frontend App will be started on `http://localhost:4200/`.
+Frontend App will be started on [`localhost:4200`](http://localhost:4200/).
 
-Swagger Doc with API description will be available on `http://localhost:3333/doc/`.
+Swagger Doc with API description will be available on [`localhost:3333/doc`](http://localhost:3333/doc/).
 
 ## Tools
 

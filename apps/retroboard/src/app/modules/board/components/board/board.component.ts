@@ -72,22 +72,20 @@ export class BoardComponent implements OnInit {
         boardId: this.board._id,
         title,
       })
-      .subscribe((res) => {
-        this.board.columns.push({
-          _id: res._id,
-          title,
-          boardId: this.board._id,
-          tasks: [],
-        });
+      .subscribe(() => {
         this.snackbarService.open('Column created');
       });
   }
 
   editColumn(_id: string, title: string) {
-    this.boardService.updateColumn(_id, {
-      title,
-      boardId: this.board._id,
-    });
+    this.boardService
+      .updateColumn$(_id, {
+        title,
+        boardId: this.board._id,
+      })
+      .subscribe(() => {
+        this.snackbarService.open('Column updated');
+      });
   }
 
   drop(event: CdkDragDrop<IColumn>): void {
@@ -136,12 +134,8 @@ export class BoardComponent implements OnInit {
   }
 
   removeColumn(_id: string) {
-    this.boardService.removeColumn$(_id).subscribe((data) => {
-      if (data) {
-        const rest = this.board.columns.filter((item) => item._id !== _id);
-        this.board.columns = [...rest];
-        this.snackbarService.open('Column deleted');
-      }
+    this.boardService.removeColumn$(_id).subscribe(() => {
+      this.snackbarService.open('Column deleted');
     });
   }
 }

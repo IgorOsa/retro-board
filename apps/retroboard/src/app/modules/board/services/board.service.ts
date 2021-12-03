@@ -8,7 +8,7 @@ import {
   ITask,
 } from '@retro-board/api-interfaces';
 import { BehaviorSubject, forkJoin, Observable } from 'rxjs';
-import { debounceTime, map, retry } from 'rxjs/operators';
+import { debounceTime, map, retry, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -61,26 +61,44 @@ export class BoardService {
   }
 
   addColumn$(payload: Omit<IColumn, '_id' | 'tasks'>): Observable<IColumn> {
-    const c$ = this.http.post<IColumn>('/api/column', payload);
-    return c$;
+    return this.http.post<IColumn>('/api/column', payload).pipe(
+      tap((res) => {
+        const board = Object.assign({}, this.store$.value);
+        board.columns.push({
+          _id: res._id,
+          title: res.title,
+          boardId: res.boardId,
+          tasks: [],
+        });
+        this.store$.next(board);
+      })
+    );
   }
 
-  updateColumn(_id: string, payload: Omit<IColumn, '_id' | 'tasks'>) {
-    this.http
-      .put<IColumn>(`/api/column/${_id}`, payload)
-      .subscribe((updated) => {
+  updateColumn$(_id: string, payload: Omit<IColumn, '_id' | 'tasks'>) {
+    return this.http.put<IColumn>(`/api/column/${_id}`, payload).pipe(
+      tap((updated) => {
         const board = Object.assign({}, this.store$.value);
         const up = board.columns.find((c) => c._id === _id);
         if (up) {
           up.title = updated.title;
           this.store$.next(board);
         }
-      });
+      })
+    );
   }
 
   removeColumn$(_id: string) {
-    const c$ = this.http.delete<IColumn>(`/api/column/${_id}`);
-    return c$;
+    return this.http.delete<IColumn>(`/api/column/${_id}`).pipe(
+      tap((data) => {
+        if (data) {
+          const board = Object.assign({}, this.store$.value);
+          const rest = board.columns.filter((item) => item._id !== _id);
+          board.columns = [...rest];
+          this.store$.next(board);
+        }
+      })
+    );
   }
 
   getTasks$(columnId: string): Observable<ITask[]> {
@@ -88,32 +106,55 @@ export class BoardService {
   }
 
   addTask$(payload: Omit<ITask, '_id'>): Observable<ITask> {
-    const c$ = this.http.post<ITask>('/api/task', payload);
-    return c$;
+    return this.http.post<ITask>('/api/task', payload).pipe(
+      tap((created) => {
+        const board = Object.assign({}, this.store$.value);
+        const col = board.columns.find((c) => c._id === created.columnId);
+        if (col) {
+          const { _id, title, columnId, userId, order } = created;
+          col.tasks.push({
+            _id,
+            title,
+            columnId,
+            order,
+            userId,
+          });
+          this.store$.next(board);
+        }
+      })
+    );
   }
 
   updateTask$(_id: string, payload: Partial<ITask>) {
-    const c$ = this.http.put<ITask>(`/api/task/${_id}`, payload);
-    return c$;
-  }
-
-  updateTask(_id: string, payload: Partial<ITask>) {
-    this.updateTask$(_id, payload).subscribe((updated) => {
-      const board = Object.assign({}, this.store$.value);
-      const col = board.columns.find((c) => c._id === updated.columnId);
-      if (col) {
-        const task = col.tasks.find((t) => t._id === _id);
-        if (task?.title && payload?.title) {
-          task.title = payload.title;
-          this.store$.next(board);
+    return this.http.put<ITask>(`/api/task/${_id}`, payload).pipe(
+      tap((updated) => {
+        const board = Object.assign({}, this.store$.value);
+        const col = board.columns.find((c) => c._id === updated.columnId);
+        if (col) {
+          const task = col.tasks.find((t) => t._id === _id);
+          if (task?.title && payload?.title) {
+            task.title = payload.title;
+            this.store$.next(board);
+          }
         }
-      }
-    });
+      })
+    );
   }
 
   removeTask$(_id: string) {
-    const c$ = this.http.delete<ITask>(`/api/task/${_id}`);
-    return c$;
+    return this.http.delete<ITask>(`/api/task/${_id}`).pipe(
+      tap((data) => {
+        if (data) {
+          const board = Object.assign({}, this.store$.value);
+          const col = board.columns.find((c) => c._id === data.columnId);
+          if (col) {
+            const rest = col.tasks.filter((item) => item._id !== _id);
+            col.tasks = [...rest];
+            this.store$.next(board);
+          }
+        }
+      })
+    );
   }
 
   getComments$(_id: string) {
