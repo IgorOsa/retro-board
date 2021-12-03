@@ -106,32 +106,55 @@ export class BoardService {
   }
 
   addTask$(payload: Omit<ITask, '_id'>): Observable<ITask> {
-    const c$ = this.http.post<ITask>('/api/task', payload);
-    return c$;
+    return this.http.post<ITask>('/api/task', payload).pipe(
+      tap((created) => {
+        const board = Object.assign({}, this.store$.value);
+        const col = board.columns.find((c) => c._id === created.columnId);
+        if (col) {
+          const { _id, title, columnId, userId, order } = created;
+          col.tasks.push({
+            _id,
+            title,
+            columnId,
+            order,
+            userId,
+          });
+          this.store$.next(board);
+        }
+      })
+    );
   }
 
   updateTask$(_id: string, payload: Partial<ITask>) {
-    const c$ = this.http.put<ITask>(`/api/task/${_id}`, payload);
-    return c$;
-  }
-
-  updateTask(_id: string, payload: Partial<ITask>) {
-    this.updateTask$(_id, payload).subscribe((updated) => {
-      const board = Object.assign({}, this.store$.value);
-      const col = board.columns.find((c) => c._id === updated.columnId);
-      if (col) {
-        const task = col.tasks.find((t) => t._id === _id);
-        if (task?.title && payload?.title) {
-          task.title = payload.title;
-          this.store$.next(board);
+    return this.http.put<ITask>(`/api/task/${_id}`, payload).pipe(
+      tap((updated) => {
+        const board = Object.assign({}, this.store$.value);
+        const col = board.columns.find((c) => c._id === updated.columnId);
+        if (col) {
+          const task = col.tasks.find((t) => t._id === _id);
+          if (task?.title && payload?.title) {
+            task.title = payload.title;
+            this.store$.next(board);
+          }
         }
-      }
-    });
+      })
+    );
   }
 
   removeTask$(_id: string) {
-    const c$ = this.http.delete<ITask>(`/api/task/${_id}`);
-    return c$;
+    return this.http.delete<ITask>(`/api/task/${_id}`).pipe(
+      tap((data) => {
+        if (data) {
+          const board = Object.assign({}, this.store$.value);
+          const col = board.columns.find((c) => c._id === data.columnId);
+          if (col) {
+            const rest = col.tasks.filter((item) => item._id !== _id);
+            col.tasks = [...rest];
+            this.store$.next(board);
+          }
+        }
+      })
+    );
   }
 
   getComments$(_id: string) {
