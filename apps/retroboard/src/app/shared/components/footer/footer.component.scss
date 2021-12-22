@@ -5,9 +5,34 @@
   justify-content: center;
 }
 .footer__copyright {
+  display: flex;
+  flex-direction: row;
   font-size: 14px;
+}
+.footer__copyright_left {
+  margin-right: 5px;
+}
+.footer__copyright_left,
+.footer__copyright_right {
+  align-self: baseline;
 }
 .footer__heart {
   color: red;
   font-size: 1.2rem;
+}
+
+@media screen and (max-width: 399px) {
+  .footer__container {
+    height: auto;
+  }
+  .footer__copyright {
+    flex-direction: column;
+  }
+  .footer__copyright_left {
+    padding-top: 5px;
+  }
+  .footer__copyright_left,
+  .footer__copyright_right {
+    align-self: center;
+  }
 }
