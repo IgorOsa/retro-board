@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { IComment } from '@retro-board/api-interfaces';
-import { SnackbarService } from '../../../../shared/services';
+import { SnackbarService } from '../../../../core/services';
 import { BoardService } from '../../services/board.service';
 
 @Component({

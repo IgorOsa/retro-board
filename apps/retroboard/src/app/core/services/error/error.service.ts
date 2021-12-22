@@ -2,7 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { throwError } from 'rxjs';
-import { SnackbarService } from '../../../shared/services/snackbar/snackbar.service';
+import { SnackbarService } from '../';
 import { AuthService } from '../auth/auth.service';
 
 @Injectable({

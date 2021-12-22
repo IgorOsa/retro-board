@@ -5,7 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { IColumn } from '@retro-board/api-interfaces';
 import { BoardService } from '../../services/board.service';
 import { DialogComponent } from '../dialog/dialog.component';
-import { SnackbarService } from '../../../../shared/services';
+import { SnackbarService } from '../../../../core/services';
 import { ConfirmDialogComponent } from '../../../../shared/components/confirm-dialog/confirm-dialog.component';
 import { UserService } from '../../../user/services/user.service';
 

@@ -9,7 +9,7 @@ import {
   moveItemInArray,
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
-import { SnackbarService } from '../../../../shared/services';
+import { SnackbarService } from '../../../../core/services';
 import { forkJoin } from 'rxjs';
 import { UserService } from '../../../user/services/user.service';
 
