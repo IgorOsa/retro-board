@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { HeaderComponent } from './components/header/header.component';
 import { MaterialModule } from './material.module';
@@ -10,6 +11,7 @@ import { ValidatorPipe } from './pipes/validator/validator.pipe';
 
 @NgModule({
   declarations: [
+    ConfirmDialogComponent,
     HeaderComponent,
     FooterComponent,
     LoaderComponent,
