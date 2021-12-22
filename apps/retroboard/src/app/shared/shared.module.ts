@@ -2,26 +2,16 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
-import { FooterComponent } from './components/footer/footer.component';
-import { HeaderComponent } from './components/header/header.component';
 import { MaterialModule } from './material.module';
 import { LoaderComponent } from './components/loader/loader.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ValidatorPipe } from './pipes/validator/validator.pipe';
 
 @NgModule({
-  declarations: [
-    ConfirmDialogComponent,
-    HeaderComponent,
-    FooterComponent,
-    LoaderComponent,
-    ValidatorPipe,
-  ],
+  declarations: [ConfirmDialogComponent, LoaderComponent, ValidatorPipe],
   imports: [CommonModule, FormsModule, MaterialModule, ReactiveFormsModule],
   exports: [
-    FooterComponent,
     FormsModule,
-    HeaderComponent,
     MaterialModule,
     LoaderComponent,
     ReactiveFormsModule,
