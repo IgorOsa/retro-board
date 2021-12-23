@@ -15,7 +15,6 @@ export class CommentItemComponent implements OnInit {
   @Input() public comment!: IComment;
   @Output() public openEditDialog = new EventEmitter();
   @Output() public removeCommentEvent = new EventEmitter();
-  public userName!: string;
 
   constructor(
     private boardService: BoardService,
@@ -24,15 +23,19 @@ export class CommentItemComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.userService.getUserById$(this.comment.userId).subscribe((u) => {
-      this.userName = `${u.firstName} ${u.lastName}`;
-    });
+    if (!this.comment.userName) {
+      this.userService.getUserById$(this.comment.userId).subscribe((u) => {
+        this.comment.userName = `${u.firstName} ${u.lastName}`;
+      });
+    }
   }
 
   editComment(_id: string, payload: Partial<IComment>) {
-    this.boardService.updateComment$(_id, payload).subscribe((c) => {
-      this.comment.text = c.text;
-    });
+    if (this.comment.text !== payload.text) {
+      this.boardService.updateComment$(_id, payload).subscribe((c) => {
+        this.comment.text = c.text;
+      });
+    }
   }
 
   openDialog(

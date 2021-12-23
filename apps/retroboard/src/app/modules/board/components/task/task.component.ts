@@ -33,10 +33,10 @@ export class TaskComponent implements OnInit {
       this.isLoading = false;
     });
 
-    if (this.task.userId) {
+    if (this.task.userId && !this.task.userName) {
       this.isLoading = true;
       this.userService.getUserById$(this.task.userId).subscribe((u) => {
-        this.userName = `${u.firstName} ${u.lastName}`;
+        this.task.userName = `${u.firstName} ${u.lastName}`;
         this.isLoading = false;
       });
     }

@@ -6,7 +6,11 @@
     {{ task.title }}
   </mat-card-title>
   <mat-card-subtitle>
-    {{ userName || task.userId }}
+    <retro-board-content-loading
+      *ngIf="!task.userName"
+      [height]="'16'"
+    ></retro-board-content-loading>
+    {{ task.userName }}
   </mat-card-subtitle>
   <retro-board-menu
     [entityId]="task._id"
