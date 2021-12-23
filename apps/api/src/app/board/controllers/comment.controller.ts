@@ -3,8 +3,8 @@ import {
   Controller,
   Delete,
   Param,
+  Patch,
   Post,
-  Put,
   UseGuards,
 } from '@nestjs/common';
 import {
@@ -49,7 +49,7 @@ export class CommentController {
     return await this.commentService.create(comment);
   }
 
-  @Put(':id')
+  @Patch(':id')
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Update comment' })

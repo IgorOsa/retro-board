@@ -168,7 +168,7 @@ export class BoardService {
   }
 
   updateComment$(_id: string, payload: Partial<IComment>) {
-    const c$ = this.http.put<IComment>(`/api/comment/${_id}`, payload);
+    const c$ = this.http.patch<IComment>(`/api/comment/${_id}`, payload);
     return c$;
   }
 
