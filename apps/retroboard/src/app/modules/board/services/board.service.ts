@@ -126,7 +126,7 @@ export class BoardService {
   }
 
   updateTask$(_id: string, payload: Partial<ITask>) {
-    return this.http.put<ITask>(`/api/task/${_id}`, payload).pipe(
+    return this.http.patch<ITask>(`/api/task/${_id}`, payload).pipe(
       tap((updated) => {
         const board = Object.assign({}, this.store$.value);
         const col = board.columns.find((c) => c._id === updated.columnId);
