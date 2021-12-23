@@ -76,7 +76,7 @@ export class BoardService {
   }
 
   updateColumn$(_id: string, payload: Omit<IColumn, '_id' | 'tasks'>) {
-    return this.http.put<IColumn>(`/api/column/${_id}`, payload).pipe(
+    return this.http.patch<IColumn>(`/api/column/${_id}`, payload).pipe(
       tap((updated) => {
         const board = Object.assign({}, this.store$.value);
         const up = board.columns.find((c) => c._id === _id);
