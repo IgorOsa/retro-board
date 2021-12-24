@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { IComment, ITask } from '@retro-board/api-interfaces';
 import { UserService } from '../../../user/services/user.service';
 import { BoardService } from '../../services/board.service';
-import { ConfirmDialogComponent } from '../../../../shared/components/confirm-dialog/confirm-dialog.component';
+import { ConfirmDialogComponent } from '../../../../shared/components';
 
 @Component({
   selector: 'retro-board-task',
@@ -58,8 +58,10 @@ export class TaskComponent implements OnInit {
   addComment(text: string): void {
     const userId = this.userService.store$.value._id;
     const comment = { text, userId, taskId: this.task._id };
+    const userName = this.userService.getCurrentUserName();
+
     this.boardService.addComment$(comment).subscribe((c) => {
-      this.comments.push(c);
+      this.comments.push({ ...c, userName });
     });
   }
 

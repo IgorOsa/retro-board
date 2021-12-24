@@ -25,6 +25,15 @@ export class UserService {
     });
   }
 
+  getCurrentUser(): IUserResponse {
+    return this.store$.value;
+  }
+
+  getCurrentUserName(): string {
+    const user = this.store$.value;
+    return `${user.firstName} ${user.lastName}`;
+  }
+
   getUserById$(userId: string): Observable<IUserResponse> {
     return this.http.get<IUserResponse>(`/api/user/${userId}`);
   }

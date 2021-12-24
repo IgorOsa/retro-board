@@ -9,6 +9,7 @@ import {
 } from '@retro-board/api-interfaces';
 import { BehaviorSubject, forkJoin, Observable } from 'rxjs';
 import { debounceTime, map, retry, tap } from 'rxjs/operators';
+import { UserService } from '../../user/services/user.service';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +21,10 @@ export class BoardService {
     columns: [],
   });
 
-  constructor(private readonly http: HttpClient) {}
+  constructor(
+    private readonly http: HttpClient,
+    private userService: UserService
+  ) {}
 
   getFullBoard$(): BehaviorSubject<IBoard> {
     forkJoin([this.getBoard$(), this.getColumns$()])
@@ -113,6 +117,8 @@ export class BoardService {
       tap((created) => {
         const board = Object.assign({}, this.store$.value);
         const col = board.columns.find((c) => c._id === created.columnId);
+        const userName = this.userService.getCurrentUserName();
+
         if (col) {
           const { _id, title, columnId, userId, order } = created;
           col.tasks.push({
@@ -121,6 +127,7 @@ export class BoardService {
             columnId,
             order,
             userId,
+            userName,
           });
           this.store$.next(board);
         }
