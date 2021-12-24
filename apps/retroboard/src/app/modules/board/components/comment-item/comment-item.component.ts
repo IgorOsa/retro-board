@@ -30,7 +30,7 @@ export class CommentItemComponent implements OnInit {
     }
   }
 
-  editComment(_id: string, payload: Partial<IComment>) {
+  editComment(_id: string, payload: Partial<IComment>): void {
     if (this.comment.text !== payload.text) {
       this.boardService.updateComment$(_id, payload).subscribe((c) => {
         this.comment.text = c.text;

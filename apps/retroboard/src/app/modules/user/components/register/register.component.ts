@@ -36,7 +36,7 @@ export class RegisterComponent implements OnInit {
     });
   }
 
-  public register() {
+  public register(): void {
     this.authService.register(this.registerForm.value).subscribe((res) => {
       if (res) {
         this.registerForm.reset();

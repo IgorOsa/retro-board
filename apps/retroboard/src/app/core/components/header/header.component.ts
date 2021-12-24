@@ -17,11 +17,11 @@ export class HeaderComponent {
     });
   }
 
-  goToRoute(link: string = '/') {
+  goToRoute(link: string = '/'): void {
     this.router.navigateByUrl(link);
   }
 
-  logout() {
+  logout(): void {
     this.authService.logout();
     this.router.navigateByUrl('/login');
   }

@@ -18,7 +18,7 @@ export class CommentsComponent {
     private snackbarService: SnackbarService
   ) {}
 
-  removeComment(_id: string) {
+  removeComment(_id: string): void {
     this.boardService.removeComment$(_id).subscribe((data) => {
       if (data) {
         const rest = this.comments.filter((item) => item._id !== _id);

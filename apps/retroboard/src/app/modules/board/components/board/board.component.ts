@@ -67,7 +67,7 @@ export class BoardComponent implements OnInit {
     });
   }
 
-  addColumn(title: string) {
+  addColumn(title: string): void {
     this.boardService
       .addColumn$({
         boardId: this.board._id,
@@ -78,7 +78,7 @@ export class BoardComponent implements OnInit {
       });
   }
 
-  editColumn(_id: string, title: string) {
+  editColumn(_id: string, title: string): void {
     this.boardService
       .updateColumn$(_id, {
         title,
@@ -134,7 +134,7 @@ export class BoardComponent implements OnInit {
     }
   }
 
-  removeColumn(_id: string) {
+  removeColumn(_id: string): void {
     this.boardService.removeColumn$(_id).subscribe(() => {
       this.snackbarService.open('Column deleted');
     });

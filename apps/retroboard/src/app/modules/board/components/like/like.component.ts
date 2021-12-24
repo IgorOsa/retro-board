@@ -26,7 +26,7 @@ export class LikeComponent implements OnInit {
     });
   }
 
-  like() {
+  like(): void {
     this.isLoading.emit(true);
     const userId = this.userService.store$.value._id;
     const like = { taskId: this.taskId, userId };
@@ -36,7 +36,7 @@ export class LikeComponent implements OnInit {
     });
   }
 
-  dislike() {
+  dislike(): void {
     this.isLoading.emit(true);
     const userId = this.userService.store$.value._id;
     const like = { taskId: this.taskId, userId };

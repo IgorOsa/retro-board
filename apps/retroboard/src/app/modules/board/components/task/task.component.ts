@@ -55,7 +55,7 @@ export class TaskComponent implements OnInit {
     });
   }
 
-  addComment(text: string) {
+  addComment(text: string): void {
     const userId = this.userService.store$.value._id;
     const comment = { text, userId, taskId: this.task._id };
     this.boardService.addComment$(comment).subscribe((c) => {
@@ -63,15 +63,15 @@ export class TaskComponent implements OnInit {
     });
   }
 
-  commentsChange(event: IComment[]) {
+  commentsChange(event: IComment[]): void {
     this.comments = event;
   }
 
-  toggleCommentForm() {
+  toggleCommentForm(): void {
     this.showCommentForm = !this.showCommentForm;
   }
 
-  setLoading(event: boolean) {
+  setLoading(event: boolean): void {
     this.isLoading = event;
   }
 }
