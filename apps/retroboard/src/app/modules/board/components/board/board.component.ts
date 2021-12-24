@@ -25,9 +25,9 @@ export class BoardComponent implements OnInit {
 
   constructor(
     private boardService: BoardService,
-    public dialog: MatDialog,
     private snackbarService: SnackbarService,
-    private userService: UserService
+    private userService: UserService,
+    public dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
