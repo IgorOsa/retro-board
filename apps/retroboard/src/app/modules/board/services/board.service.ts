@@ -22,7 +22,7 @@ export class BoardService {
 
   constructor(private readonly http: HttpClient) {}
 
-  getFullBoard$() {
+  getFullBoard$(): BehaviorSubject<IBoard> {
     forkJoin([this.getBoard$(), this.getColumns$()])
       .pipe(
         debounceTime(500),
@@ -75,7 +75,10 @@ export class BoardService {
     );
   }
 
-  updateColumn$(_id: string, payload: Omit<IColumn, '_id' | 'tasks'>) {
+  updateColumn$(
+    _id: string,
+    payload: Omit<IColumn, '_id' | 'tasks'>
+  ): Observable<IColumn> {
     return this.http.patch<IColumn>(`/api/column/${_id}`, payload).pipe(
       tap((updated) => {
         const board = Object.assign({}, this.store$.value);
@@ -88,7 +91,7 @@ export class BoardService {
     );
   }
 
-  removeColumn$(_id: string) {
+  removeColumn$(_id: string): Observable<IColumn> {
     return this.http.delete<IColumn>(`/api/column/${_id}`).pipe(
       tap((data) => {
         if (data) {
@@ -125,7 +128,7 @@ export class BoardService {
     );
   }
 
-  updateTask$(_id: string, payload: Partial<ITask>) {
+  updateTask$(_id: string, payload: Partial<ITask>): Observable<ITask> {
     return this.http.patch<ITask>(`/api/task/${_id}`, payload).pipe(
       tap((updated) => {
         const board = Object.assign({}, this.store$.value);
@@ -141,7 +144,7 @@ export class BoardService {
     );
   }
 
-  removeTask$(_id: string) {
+  removeTask$(_id: string): Observable<ITask> {
     return this.http.delete<ITask>(`/api/task/${_id}`).pipe(
       tap((data) => {
         if (data) {
@@ -157,37 +160,40 @@ export class BoardService {
     );
   }
 
-  getComments$(_id: string) {
+  getComments$(_id: string): Observable<IComment[]> {
     const c$ = this.http.get<IComment[]>(`/api/task/${_id}/comments`);
     return c$;
   }
 
-  addComment$(payload: Omit<IComment, '_id'>) {
+  addComment$(payload: Omit<IComment, '_id'>): Observable<IComment> {
     const c$ = this.http.post<IComment>(`/api/comment`, payload);
     return c$;
   }
 
-  updateComment$(_id: string, payload: Partial<IComment>) {
+  updateComment$(
+    _id: string,
+    payload: Partial<IComment>
+  ): Observable<IComment> {
     const c$ = this.http.patch<IComment>(`/api/comment/${_id}`, payload);
     return c$;
   }
 
-  removeComment$(_id: string) {
+  removeComment$(_id: string): Observable<IComment> {
     const c$ = this.http.delete<IComment>(`/api/comment/${_id}`);
     return c$;
   }
 
-  getLikes(taskId: string) {
+  getLikes(taskId: string): Observable<ILike[]> {
     const c$ = this.http.get<ILike[]>(`/api/task/${taskId}/likes`);
     return c$;
   }
 
-  addLike$(payload: ILike) {
+  addLike$(payload: ILike): Observable<ILike> {
     const c$ = this.http.post<ILike>(`/api/like`, payload);
     return c$;
   }
 
-  removeLike$(payload: ILike) {
+  removeLike$(payload: ILike): Observable<ILike> {
     const c$ = this.http.post<ILike>(`/api/like/remove`, payload);
     return c$;
   }
