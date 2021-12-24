@@ -4,7 +4,12 @@ import { Model } from 'mongoose';
 import { CustomBadRequestException } from '../../core/exceptions/badrequest.exception';
 import { CommentDocument } from '../schemas/comment.schema';
 import { LikeDocument } from '../schemas/like.schema';
-import { Task, TaskCreateResponse, TaskDocument } from '../schemas/task.schema';
+import {
+  Task,
+  TaskCreateResponse,
+  TaskDocument,
+  TaskWithCommentsAndLikes,
+} from '../schemas/task.schema';
 
 @Injectable()
 export class TaskService {
@@ -43,7 +48,23 @@ export class TaskService {
       if (!res) {
         throw new CustomBadRequestException(`No task found with id ${_id}`);
       }
-      return res;
+      return { ...JSON.parse(JSON.stringify(res)) };
+    } catch (err) {
+      throw new CustomBadRequestException(err.message);
+    }
+  }
+
+  async getWithCommentsAndLikes(
+    _id: string
+  ): Promise<TaskWithCommentsAndLikes | IMessage> {
+    try {
+      const res = await this.taskModel.findOne({ _id });
+      if (!res) {
+        throw new CustomBadRequestException(`No task found with id ${_id}`);
+      }
+      const comments = await this.commentModel.find({ taskId: res._id });
+      const likes = await this.likeModel.find({ taskId: res._id });
+      return { ...JSON.parse(JSON.stringify(res)), comments, likes };
     } catch (err) {
       throw new CustomBadRequestException(err.message);
     }

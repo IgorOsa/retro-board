@@ -26,6 +26,11 @@ export interface ITask {
   order: number;
 }
 
+export interface ITaskWithCommentsAndLikes {
+  comments: IComment[];
+  likes: ILike[];
+}
+
 export interface ILike {
   _id?: string;
   userId: string;
