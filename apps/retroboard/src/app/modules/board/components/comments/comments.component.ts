@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { IComment } from '@retro-board/api-interfaces';
-import { SnackbarService } from '../../../../core/services';
 import { BoardService } from '../../services/board.service';
+import { SnackbarService } from '../../../../core/services';
 
 @Component({
   selector: 'retro-board-comments',

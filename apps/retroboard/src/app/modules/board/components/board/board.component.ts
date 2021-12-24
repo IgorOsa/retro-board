@@ -1,16 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { IBoard, IColumn } from '@retro-board/api-interfaces';
-import { BoardService } from '../../services/board.service';
 import { MatDialog } from '@angular/material/dialog';
-import { DialogComponent } from '../dialog/dialog.component';
-import { delay } from 'rxjs/operators';
 import {
   CdkDragDrop,
   moveItemInArray,
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
-import { SnackbarService } from '../../../../core/services';
 import { forkJoin } from 'rxjs';
+import { delay } from 'rxjs/operators';
+
+import { IBoard, IColumn } from '@retro-board/api-interfaces';
+import { BoardService } from '../../services/board.service';
+import { DialogComponent } from '../dialog/dialog.component';
+import { SnackbarService } from '../../../../core/services';
 import { UserService } from '../../../user/services/user.service';
 
 @Component({

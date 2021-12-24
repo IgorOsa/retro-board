@@ -27,7 +27,7 @@ export class AuthService {
     return this.http.post<IUser>(api, user).pipe();
   }
 
-  login(email: string, password: string) {
+  login(email: string, password: string): Observable<IAuthResponse> {
     return this.http
       .post<IAuthResponse>('/api/auth/login', { email, password })
       .pipe(
@@ -40,7 +40,7 @@ export class AuthService {
       );
   }
 
-  logout() {
+  logout(): void {
     // remove user from local storage to log user out
     localStorage.removeItem('currentUser');
     this.currentUserSubject.next({ access_token: '' });

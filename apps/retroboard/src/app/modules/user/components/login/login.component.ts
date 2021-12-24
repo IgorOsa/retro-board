@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from '../../../../core/services/auth/auth.service';
-import { SnackbarService } from '../../../../core/services';
+import { AuthService, SnackbarService } from '../../../../core/services';
 
 @Component({
   templateUrl: './login.component.html',
