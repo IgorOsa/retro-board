@@ -1,5 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { IMessage } from '@retro-board/api-interfaces';
+import {
+  IMessage,
+  ITaskWithCommentsAndLikes,
+} from '@retro-board/api-interfaces';
 import { Model } from 'mongoose';
 import { CustomBadRequestException } from '../../core/exceptions/badrequest.exception';
 import { CommentDocument } from '../schemas/comment.schema';
@@ -28,15 +31,22 @@ export class TaskService {
     }
   }
 
-  async getAll(columnId: string): Promise<Task[]> {
+  async getAll(columnId: string): Promise<ITaskWithCommentsAndLikes[]> {
     try {
       const res = await this.taskModel.find({ columnId });
       if (!res) {
         throw new CustomBadRequestException(
           `No tasks found for column with id ${columnId}`
         );
+      } else {
+        const column = [...JSON.parse(JSON.stringify(res))];
+        return column.reduce(async (acc, el) => {
+          const res = await acc;
+          const comments = await this.commentModel.find({ taskId: el._id });
+          const likes = await this.likeModel.find({ taskId: el._id });
+          return res.concat({ ...el, comments, likes });
+        }, Promise.resolve([]));
       }
-      return res;
     } catch (err) {
       throw new CustomBadRequestException(err.message);
     }
