@@ -26,9 +26,9 @@ export interface ITask {
   order: number;
 }
 
-export interface ITaskWithCommentsAndLikes {
-  comments: IComment[];
-  likes: ILike[];
+export interface ITaskWithCommentsAndLikes extends ITask {
+  comments?: IComment[];
+  likes?: ILike[];
 }
 
 export interface ILike {

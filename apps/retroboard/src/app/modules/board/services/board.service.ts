@@ -167,10 +167,10 @@ export class BoardService {
     );
   }
 
-  getComments$(_id: string): Observable<IComment[]> {
-    const c$ = this.http.get<IComment[]>(`/api/task/${_id}/comments`);
-    return c$;
-  }
+  // getComments$(_id: string): Observable<IComment[]> {
+  //   const c$ = this.http.get<IComment[]>(`/api/task/${_id}/comments`);
+  //   return c$;
+  // }
 
   addComment$(payload: Omit<IComment, '_id'>): Observable<IComment> {
     const c$ = this.http.post<IComment>(`/api/comment`, payload);
@@ -190,10 +190,10 @@ export class BoardService {
     return c$;
   }
 
-  getLikes(taskId: string): Observable<ILike[]> {
-    const c$ = this.http.get<ILike[]>(`/api/task/${taskId}/likes`);
-    return c$;
-  }
+  // getLikes$(taskId: string): Observable<ILike[]> {
+  //   const c$ = this.http.get<ILike[]>(`/api/task/${taskId}/likes`);
+  //   return c$;
+  // }
 
   addLike$(payload: ILike): Observable<ILike> {
     const c$ = this.http.post<ILike>(`/api/like`, payload);

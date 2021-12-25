@@ -21,6 +21,7 @@
   <mat-card-actions>
     <retro-board-like
       [taskId]="task._id"
+      [task]="task"
       (isLoading)="setLoading($event)"
     ></retro-board-like>
     <retro-board-comment-button
