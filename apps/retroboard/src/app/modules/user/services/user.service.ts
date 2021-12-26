@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IUserResponse } from '@retro-board/api-interfaces';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -15,26 +15,17 @@ export class UserService {
     });
   }
 
-  getUserData$(): Observable<IUserResponse> {
+  getUserData$() {
     return this.http.get<IUserResponse>(`/api/user`);
   }
 
-  setCurrentUser(): void {
+  setCurrentUser() {
     this.getUserData$().subscribe((data) => {
       this.store$.next(data);
     });
   }
 
-  getCurrentUser(): IUserResponse {
-    return this.store$.value;
-  }
-
-  getCurrentUserName(): string {
-    const user = this.store$.value;
-    return `${user.firstName} ${user.lastName}`;
-  }
-
-  getUserById$(userId: string): Observable<IUserResponse> {
+  getUserById$(userId: string) {
     return this.http.get<IUserResponse>(`/api/user/${userId}`);
   }
 }

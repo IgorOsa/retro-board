@@ -20,13 +20,13 @@ export class CommentFormComponent {
 
   constructor(private _ngZone: NgZone) {}
 
-  triggerResize(): void {
+  triggerResize() {
     this._ngZone.onStable
       .pipe(take(1))
       .subscribe(() => this.autosize.resizeToFitContent(true));
   }
 
-  submit(): void {
+  submit() {
     if (!this.commentInput) {
       return;
     }

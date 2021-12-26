@@ -18,7 +18,7 @@ export class SnackbarService {
     return this.closeSign;
   }
 
-  config(): MatSnackBarConfig {
+  config() {
     return this.matSnackBarConfig;
   }
 

@@ -8,7 +8,6 @@
       required
       minlength="4"
       #title="ngModel"
-      (input)="handleInputChange($event)"
     />
     <mat-error *ngIf="title.invalid && (title.dirty || title.touched)">
       <div *ngIf="title.errors?.['required']">Title is required.</div>
@@ -25,7 +24,7 @@
     [mat-dialog-close]="data.entityTitle"
     cdkFocusInitial
     color="primary"
-    [disabled]="!changed || title.invalid"
+    [disabled]="title.invalid"
   >
     {{ data.dialogAction || 'Create' }}
   </button>

@@ -8,11 +8,5 @@
   >
   </retro-board-menu>
   <mat-card-title>{{ comment.text }}</mat-card-title>
-  <mat-card-subtitle>
-    <retro-board-content-loading
-      *ngIf="!comment.userName"
-      [height]="'12'"
-    ></retro-board-content-loading>
-    {{ comment.userName }}
-  </mat-card-subtitle>
+  <mat-card-subtitle>{{ userName || comment.userId }}</mat-card-subtitle>
 </mat-card>

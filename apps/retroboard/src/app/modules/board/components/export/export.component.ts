@@ -13,7 +13,7 @@ export class ExportComponent {
     private boardService: BoardService
   ) {}
 
-  exportToExcel(): void {
+  exportToExcel() {
     this.excelService.exportAsExcelFile(
       this.boardService.store$.value.columns,
       'retro-board'

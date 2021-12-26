@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { SnackbarService } from '../../../../shared/services/snackbar/snackbar.service';
 import { throwError } from 'rxjs';
-import { AuthService, SnackbarService } from '../../../../core/services';
+import { AuthService } from '../../../../core/services/auth/auth.service';
 
 @Component({
   templateUrl: './register.component.html',
@@ -36,7 +37,7 @@ export class RegisterComponent implements OnInit {
     });
   }
 
-  public register(): void {
+  public register() {
     this.authService.register(this.registerForm.value).subscribe((res) => {
       if (res) {
         this.registerForm.reset();

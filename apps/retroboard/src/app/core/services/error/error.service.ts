@@ -1,9 +1,9 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, throwError } from 'rxjs';
-import { SnackbarService } from '../';
-import { AuthService } from '../';
+import { throwError } from 'rxjs';
+import { SnackbarService } from '../../../shared/services/snackbar/snackbar.service';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +15,7 @@ export class ErrorService {
     private readonly snackBarService: SnackbarService
   ) {}
 
-  public handleError$(err: HttpErrorResponse): Observable<never> {
+  public handleError$(err: HttpErrorResponse) {
     let msg =
       `${err.error.statusCode} ${err.error.message}`.trim() || 'Unknown Error';
 

@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { IComment } from '@retro-board/api-interfaces';
+import { SnackbarService } from '../../../../shared/services';
 import { BoardService } from '../../services/board.service';
-import { SnackbarService } from '../../../../core/services';
 
 @Component({
   selector: 'retro-board-comments',
@@ -18,7 +18,7 @@ export class CommentsComponent {
     private snackbarService: SnackbarService
   ) {}
 
-  removeComment(_id: string): void {
+  removeComment(_id: string) {
     this.boardService.removeComment$(_id).subscribe((data) => {
       if (data) {
         const rest = this.comments.filter((item) => item._id !== _id);

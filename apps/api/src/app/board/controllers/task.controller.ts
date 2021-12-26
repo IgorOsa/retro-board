@@ -4,8 +4,8 @@ import {
   Delete,
   Get,
   Param,
-  Patch,
   Post,
+  Put,
   UseGuards,
 } from '@nestjs/common';
 import {
@@ -19,7 +19,6 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
-import { IMessage } from '@retro-board/api-interfaces';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { CustomBadRequestException } from '../../core/exceptions/badrequest.exception';
 import { Comment } from '../schemas/comment.schema';
@@ -29,7 +28,6 @@ import {
   TaskCreateRequest,
   TaskCreateResponse,
   TaskUpdateRequest,
-  TaskWithCommentsAndLikes,
 } from '../schemas/task.schema';
 import { CommentService } from '../services/comment.service';
 import { LikeService } from '../services/like.service';
@@ -82,33 +80,12 @@ export class TaskController {
   @ApiInternalServerErrorResponse({
     description: 'Internal server error',
   })
-  async get(@Param('id') id: string): Promise<Task | IMessage> {
-    return await this.taskService.get(id);
+  async get(@Param('id') id: string) {
+    const column = await this.taskService.get(id);
+    return column;
   }
 
-  @Get(':id/all')
-  @UseGuards(JwtAuthGuard)
-  @ApiBearerAuth()
-  @ApiOperation({ summary: 'Get task by id with comments and likes' })
-  @ApiOkResponse({
-    description: 'Task data.',
-    type: TaskWithCommentsAndLikes,
-  })
-  @ApiBadRequestResponse({
-    description: 'Bad request.',
-    type: CustomBadRequestException,
-  })
-  @ApiForbiddenResponse({ description: 'Forbidden.' })
-  @ApiInternalServerErrorResponse({
-    description: 'Internal server error',
-  })
-  async getAll(
-    @Param('id') id: string
-  ): Promise<TaskWithCommentsAndLikes | IMessage> {
-    return await this.taskService.getWithCommentsAndLikes(id);
-  }
-
-  @Patch(':id')
+  @Put(':id')
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Update task by id.' })
@@ -125,10 +102,7 @@ export class TaskController {
     description: 'Internal server error',
   })
   @ApiBody({ description: 'Update task', type: TaskUpdateRequest })
-  async update(
-    @Param('id') id: string,
-    @Body() payload: Task
-  ): Promise<Task | IMessage> {
+  async update(@Param('id') id: string, @Body() payload: Task) {
     const column = await this.taskService.update(id, payload);
     return column;
   }

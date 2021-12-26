@@ -1,12 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import {
-  IComment,
-  ITaskWithCommentsAndLikes,
-} from '@retro-board/api-interfaces';
+import { IComment, ITask } from '@retro-board/api-interfaces';
 import { UserService } from '../../../user/services/user.service';
 import { BoardService } from '../../services/board.service';
-import { ConfirmDialogComponent } from '../../../../shared/components';
+import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'retro-board-task',
@@ -16,10 +13,10 @@ import { ConfirmDialogComponent } from '../../../../shared/components';
 export class TaskComponent implements OnInit {
   public isLoading = false;
   public showCommentForm = false;
-  public comments!: IComment[];
+  public comments: IComment[] = [];
   public userName!: string;
 
-  @Input() task!: ITaskWithCommentsAndLikes;
+  @Input() task!: ITask;
   @Output() public openEditDialog = new EventEmitter();
   @Output() removeTaskEvent = new EventEmitter();
 
@@ -30,12 +27,16 @@ export class TaskComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.comments = this.task.comments || [];
+    this.isLoading = true;
+    this.boardService.getComments$(this.task._id).subscribe((data) => {
+      this.comments = data;
+      this.isLoading = false;
+    });
 
-    if (this.task.userId && !this.task.userName) {
+    if (this.task.userId) {
       this.isLoading = true;
       this.userService.getUserById$(this.task.userId).subscribe((u) => {
-        this.task.userName = `${u.firstName} ${u.lastName}`;
+        this.userName = `${u.firstName} ${u.lastName}`;
         this.isLoading = false;
       });
     }
@@ -54,25 +55,23 @@ export class TaskComponent implements OnInit {
     });
   }
 
-  addComment(text: string): void {
+  addComment(text: string) {
     const userId = this.userService.store$.value._id;
     const comment = { text, userId, taskId: this.task._id };
-    const userName = this.userService.getCurrentUserName();
-
     this.boardService.addComment$(comment).subscribe((c) => {
-      this.comments.push({ ...c, userName });
+      this.comments.push(c);
     });
   }
 
-  commentsChange(event: IComment[]): void {
+  commentsChange(event: IComment[]) {
     this.comments = event;
   }
 
-  toggleCommentForm(): void {
+  toggleCommentForm() {
     this.showCommentForm = !this.showCommentForm;
   }
 
-  setLoading(event: boolean): void {
+  setLoading(event: boolean) {
     this.isLoading = event;
   }
 }

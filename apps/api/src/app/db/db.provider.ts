@@ -1,5 +1,6 @@
 import { Logger } from '@nestjs/common';
 import * as mongoose from 'mongoose';
+// import { mockBoard } from './db.mock';
 
 export const databaseProviders = [
   {
@@ -8,7 +9,10 @@ export const databaseProviders = [
       const connection = await mongoose.connect(
         process.env.MONGO_CONNECTION_STRING
       );
+
       Logger.log(`Connected to MongoDB!`);
+
+      // mockBoard();
 
       return connection;
     },

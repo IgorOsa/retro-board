@@ -1,17 +1,16 @@
 import { Component, OnInit } from '@angular/core';
+import { IBoard, IColumn } from '@retro-board/api-interfaces';
+import { BoardService } from '../../services/board.service';
 import { MatDialog } from '@angular/material/dialog';
+import { DialogComponent } from '../dialog/dialog.component';
+import { delay } from 'rxjs/operators';
 import {
   CdkDragDrop,
   moveItemInArray,
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
+import { SnackbarService } from '../../../../shared/services';
 import { forkJoin } from 'rxjs';
-import { delay } from 'rxjs/operators';
-
-import { IBoard, IColumn } from '@retro-board/api-interfaces';
-import { BoardService } from '../../services/board.service';
-import { DialogComponent } from '../dialog/dialog.component';
-import { SnackbarService } from '../../../../core/services';
 import { UserService } from '../../../user/services/user.service';
 
 @Component({
@@ -25,9 +24,9 @@ export class BoardComponent implements OnInit {
 
   constructor(
     private boardService: BoardService,
+    public dialog: MatDialog,
     private snackbarService: SnackbarService,
-    private userService: UserService,
-    public dialog: MatDialog
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {
@@ -67,7 +66,7 @@ export class BoardComponent implements OnInit {
     });
   }
 
-  addColumn(title: string): void {
+  addColumn(title: string) {
     this.boardService
       .addColumn$({
         boardId: this.board._id,
@@ -78,7 +77,7 @@ export class BoardComponent implements OnInit {
       });
   }
 
-  editColumn(_id: string, title: string): void {
+  editColumn(_id: string, title: string) {
     this.boardService
       .updateColumn$(_id, {
         title,
@@ -134,7 +133,7 @@ export class BoardComponent implements OnInit {
     }
   }
 
-  removeColumn(_id: string): void {
+  removeColumn(_id: string) {
     this.boardService.removeColumn$(_id).subscribe(() => {
       this.snackbarService.open('Column deleted');
     });

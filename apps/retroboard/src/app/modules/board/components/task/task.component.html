@@ -6,11 +6,7 @@
     {{ task.title }}
   </mat-card-title>
   <mat-card-subtitle>
-    <retro-board-content-loading
-      *ngIf="!task.userName"
-      [height]="'16'"
-    ></retro-board-content-loading>
-    {{ task.userName }}
+    {{ userName || task.userId }}
   </mat-card-subtitle>
   <retro-board-menu
     [entityId]="task._id"
@@ -21,7 +17,6 @@
   <mat-card-actions>
     <retro-board-like
       [taskId]="task._id"
-      [task]="task"
       (isLoading)="setLoading($event)"
     ></retro-board-like>
     <retro-board-comment-button

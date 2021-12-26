@@ -1,7 +1,7 @@
 import { ApiProperty, OmitType, PartialType } from '@nestjs/swagger';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
-import { IComment, ILike, ITask } from '@retro-board/api-interfaces';
+import { ITask } from '@retro-board/api-interfaces';
 
 export type TaskDocument = Task & Document;
 
@@ -36,10 +36,3 @@ export const TaskCreateRequest = OmitType(Task, ['_id'] as const);
 export class TaskCreateResponse extends Task {}
 
 export const TaskUpdateRequest = PartialType(TaskCreateRequest);
-
-export class TaskWithCommentsAndLikes extends Task {
-  @ApiProperty({ example: [] })
-  comments: IComment[];
-  @ApiProperty({ example: [] })
-  likes: ILike[];
-}
