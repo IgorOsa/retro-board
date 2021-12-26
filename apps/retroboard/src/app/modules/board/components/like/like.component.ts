@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ILike } from '@retro-board/api-interfaces';
+import { ILike, ITaskWithCommentsAndLikes } from '@retro-board/api-interfaces';
 import { UserService } from '../../../user/services/user.service';
 import { BoardService } from '../../services/board.service';
 
@@ -11,6 +11,7 @@ import { BoardService } from '../../services/board.service';
 export class LikeComponent implements OnInit {
   @Output() isLoading = new EventEmitter();
   @Input() taskId!: string;
+  @Input() task!: ITaskWithCommentsAndLikes;
   public likes: ILike[] = [];
 
   constructor(
@@ -19,14 +20,10 @@ export class LikeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.isLoading.emit(true);
-    this.boardService.getLikes(this.taskId).subscribe((data) => {
-      this.likes.push(...data);
-      this.isLoading.emit(false);
-    });
+    this.likes = this.task.likes || [];
   }
 
-  like() {
+  like(): void {
     this.isLoading.emit(true);
     const userId = this.userService.store$.value._id;
     const like = { taskId: this.taskId, userId };
@@ -36,7 +33,7 @@ export class LikeComponent implements OnInit {
     });
   }
 
-  dislike() {
+  dislike(): void {
     this.isLoading.emit(true);
     const userId = this.userService.store$.value._id;
     const like = { taskId: this.taskId, userId };

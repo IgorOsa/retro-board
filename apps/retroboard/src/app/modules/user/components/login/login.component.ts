@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from '../../../../core/services/auth/auth.service';
-import { SnackbarService } from '../../../../shared/services/snackbar/snackbar.service';
+import { AuthService, SnackbarService } from '../../../../core/services';
 
 @Component({
   templateUrl: './login.component.html',
@@ -28,7 +27,7 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  public login() {
+  public login(): void {
     const { email, password } = this.loginForm.value;
 
     if (email && password) {

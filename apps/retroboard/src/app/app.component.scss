@@ -3,7 +3,19 @@
 }
 
 main {
-  min-height: calc(100vh - 9.2rem);
+  min-height: calc(100vh - 146px);
   margin: 0 1rem;
   padding-top: 1rem;
+}
+
+@media screen and (max-width: 599px) {
+  main {
+    min-height: calc(100vh - 130px);
+  }
+}
+
+@media screen and (max-width: 399px) {
+  main {
+    min-height: calc(100vh - 145px);
+  }
 }
