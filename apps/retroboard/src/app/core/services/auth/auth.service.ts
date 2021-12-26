@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { IAuthResponse, IUser } from '@retro-board/api-interfaces';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { StorageService } from '../storage/storage.service';
 
 @Injectable({
   providedIn: 'root',
@@ -11,9 +12,12 @@ export class AuthService {
   private currentUserSubject!: BehaviorSubject<IAuthResponse>;
   public currentUser!: Observable<IAuthResponse>;
 
-  constructor(private http: HttpClient) {
+  constructor(
+    private http: HttpClient,
+    private storageService: StorageService
+  ) {
     this.currentUserSubject = new BehaviorSubject<IAuthResponse>(
-      JSON.parse(localStorage.getItem('currentUser') || '{}')
+      JSON.parse(this.storageService.get('currentUser') || '{}')
     );
     this.currentUser = this.currentUserSubject.asObservable();
   }
@@ -33,7 +37,7 @@ export class AuthService {
       .pipe(
         map((user) => {
           // store user details and jwt token in local storage to keep user logged in between page refreshes
-          localStorage.setItem('currentUser', JSON.stringify(user));
+          this.storageService.set('currentUser', JSON.stringify(user));
           this.currentUserSubject.next(user);
           return user;
         })
@@ -42,7 +46,7 @@ export class AuthService {
 
   logout(): void {
     // remove user from local storage to log user out
-    localStorage.removeItem('currentUser');
+    this.storageService.remove('currentUser');
     this.currentUserSubject.next({ access_token: '' });
   }
 }
