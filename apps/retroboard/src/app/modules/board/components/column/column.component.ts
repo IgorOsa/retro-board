@@ -5,8 +5,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { IColumn } from '@retro-board/api-interfaces';
 import { BoardService } from '../../services/board.service';
 import { DialogComponent } from '../dialog/dialog.component';
-import { SnackbarService } from '../../../../shared/services';
-import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
+import { SnackbarService } from '../../../../core/services';
+import { ConfirmDialogComponent } from '../../../../shared/components/confirm-dialog/confirm-dialog.component';
 import { UserService } from '../../../user/services/user.service';
 
 @Component({
@@ -73,7 +73,7 @@ export class ColumnComponent {
     });
   }
 
-  addTask(title: string) {
+  addTask(title: string): void {
     const nextOrder = this.column.tasks.length;
     const userId = this.userService.store$.value._id;
 
@@ -89,7 +89,7 @@ export class ColumnComponent {
       });
   }
 
-  editTask(_id: string, title: string) {
+  editTask(_id: string, title: string): void {
     this.boardService
       .updateTask$(_id, {
         title,
@@ -97,11 +97,11 @@ export class ColumnComponent {
       .subscribe({ complete: () => this.snackbarService.open('Task updated') });
   }
 
-  removeTaskEvent(_id: string) {
+  removeTaskEvent(_id: string): void {
     this.removeTask(_id);
   }
 
-  removeTask(_id: string) {
+  removeTask(_id: string): void {
     this.boardService.removeTask$(_id).subscribe({
       complete: () => {
         this.snackbarService.open('Task deleted');

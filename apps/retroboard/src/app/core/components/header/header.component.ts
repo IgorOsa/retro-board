@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from '../../../core/services/auth/auth.service';
+import { AuthService } from '../../services';
 
 @Component({
   selector: 'retro-board-header',
@@ -17,11 +17,11 @@ export class HeaderComponent {
     });
   }
 
-  goToRoute(link: string = '/') {
+  goToRoute(link: string = '/'): void {
     this.router.navigateByUrl(link);
   }
 
-  logout() {
+  logout(): void {
     this.authService.logout();
     this.router.navigateByUrl('/login');
   }

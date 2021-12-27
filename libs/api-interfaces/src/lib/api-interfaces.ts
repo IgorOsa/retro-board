@@ -20,9 +20,15 @@ export interface IColumn {
 export interface ITask {
   _id: string;
   userId: string;
+  userName?: string;
   columnId: string;
   title: string;
   order: number;
+}
+
+export interface ITaskWithCommentsAndLikes extends ITask {
+  comments?: IComment[];
+  likes?: ILike[];
 }
 
 export interface ILike {
@@ -34,6 +40,7 @@ export interface ILike {
 export interface IComment {
   _id: string;
   userId: string;
+  userName?: string;
   taskId: string;
   text: string;
 }

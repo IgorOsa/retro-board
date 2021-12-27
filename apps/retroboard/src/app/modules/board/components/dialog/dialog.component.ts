@@ -13,6 +13,9 @@ export interface DialogData {
   styleUrls: ['./dialog.component.scss'],
 })
 export class DialogComponent {
+  public changed = false;
+  public oldValue = this.data.entityTitle;
+
   constructor(
     public dialogRef: MatDialogRef<unknown>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData
@@ -20,5 +23,9 @@ export class DialogComponent {
 
   onNoClick(): void {
     this.dialogRef.close();
+  }
+
+  handleInputChange(event: Event): void {
+    this.changed = (event.target as HTMLInputElement).value !== this.oldValue;
   }
 }

@@ -1,0 +1,45 @@
+<header>
+  <mat-toolbar>
+    <span class="title" (click)="goToRoute('/')">{{ title }}</span>
+    <span class="spacer"></span>
+    <button
+      mat-raised-button
+      class="header__home-btn"
+      color="primary"
+      matTooltip="Home page"
+      (click)="goToRoute('/')"
+    >
+      <mat-icon aria-hidden="false" aria-label="Home"> home </mat-icon>
+    </button>
+    <button
+      *ngIf="!isLoggedIn"
+      mat-raised-button
+      color="primary"
+      matTooltip="Register"
+      (click)="goToRoute('register')"
+    >
+      <mat-icon aria-hidden="false" aria-label="Register">
+        person_add
+      </mat-icon>
+    </button>
+    <button
+      *ngIf="!isLoggedIn"
+      mat-raised-button
+      color="primary"
+      matTooltip="LogIn"
+      (click)="goToRoute('login')"
+    >
+      <mat-icon aria-hidden="false" aria-label="LogIn"> login </mat-icon>
+    </button>
+    <button
+      *ngIf="isLoggedIn"
+      mat-raised-button
+      color="primary"
+      matTooltip="LogOut"
+      (click)="logout()"
+    >
+      <mat-icon aria-hidden="false" aria-label="LogOut"> logout </mat-icon>
+    </button>
+  </mat-toolbar>
+  <mat-divider></mat-divider>
+</header>
