@@ -8,9 +8,8 @@ describe('LoaderComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ LoaderComponent ]
-    })
-    .compileComponents();
+      declarations: [LoaderComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -21,5 +20,11 @@ describe('LoaderComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should display loader', () => {
+    const compiled = fixture.nativeElement;
+    const loader = compiled.querySelector('div.loader').innerHTML;
+    expect(loader).toBe('<mat-spinner></mat-spinner>');
   });
 });
