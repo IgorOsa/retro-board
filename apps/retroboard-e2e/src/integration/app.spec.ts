@@ -1,13 +1,28 @@
-import { getGreeting } from '../support/app.po';
+import {
+  getHeaderTitle,
+  getFooterCopyright,
+  getFooterMadeInfo,
+} from '../support/app.po';
 
 describe('retroboard', () => {
   beforeEach(() => cy.visit('/'));
 
-  it('should display welcome message', () => {
-    // Custom command example, see `../support/commands.ts` file
-    cy.login('john@example.com', 'password');
+  it('should display app name in header', () => {
+    getHeaderTitle().contains('RetroBoard');
+  });
 
-    // Function helper example, see `../support/app.po.ts` file
-    getGreeting().contains('RetroBoard');
+  it('should display copyright info', () => {
+    const footerCopyrightLeft = getFooterCopyright();
+
+    footerCopyrightLeft.contains('©');
+    footerCopyrightLeft.contains('Ihor Osadchyi');
+  });
+
+  it('should display made location info', () => {
+    const footerCopyrightRight = getFooterMadeInfo();
+
+    footerCopyrightRight.contains('Made with ');
+    footerCopyrightRight.contains(' in Kyiv');
+    footerCopyrightRight.contains('.footer__heart', '♥');
   });
 });

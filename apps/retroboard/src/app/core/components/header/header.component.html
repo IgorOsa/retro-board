@@ -1,6 +1,8 @@
 <header>
   <mat-toolbar>
-    <span class="title" (click)="goToRoute('/')">{{ title }}</span>
+    <span class="title" (click)="goToRoute('/')" data-cy="header-title">{{
+      title
+    }}</span>
     <span class="spacer"></span>
     <button
       mat-raised-button
