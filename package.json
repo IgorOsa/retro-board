@@ -35,7 +35,7 @@
     "class-validator": "^0.14.0",
     "dotenv": "^10.0.0",
     "file-saver": "^2.0.5",
-    "mongoose": "^6.2.2",
+    "mongoose": "^6.4.6",
     "ngx-content-loading": "^0.2.1",
     "passport": "^0.5.2",
     "passport-jwt": "^4.0.0",
